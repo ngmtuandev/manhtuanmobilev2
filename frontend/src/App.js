@@ -2,8 +2,15 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import path from "./untils/path";
 import { Home, Login, Public } from "./pages/publicPage/index";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import "./index.css";
+import actionFetchCategory from "./store/actionTypeAsync";
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(actionFetchCategory());
+  }, []);
   return (
     <div className="min-h-screen bg-bgDarkLight">
       <Routes>
