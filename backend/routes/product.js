@@ -12,6 +12,7 @@ router.post(
 );
 
 router.get("/all-product", productController.getAllProducts);
+router.put("/ratings", verifyToken, productController.handleRatings);
 router.put(
   "/uploadImage/:id",
   [verifyToken, verifyAdmin],

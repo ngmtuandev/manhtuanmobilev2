@@ -48,12 +48,16 @@ const productController = {
   getAllProducts: asyncHandler(async (req, res) => {
     const allProduct = await Product.find();
     const queries = { ...req.query };
+    // tách các trường đặc biệt ra khỏi query
     const excludeFields = ["limit", "sort", "page", "fields"];
     excludeFields.forEach((item) => delete queries[item]);
+    // Format lại oparatỏ cho đúng cú pháp Mongoose
     let queryString = JSON.stringify(queries);
     queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
     const formatQuery = JSON.parse(queryString);
     console.log("formatQuery", formatQuery);
+
+    // thực hiện thao tác
 
     if (queries?.title)
       formatQuery.title = { $regex: queries.title, $options: "i" };
@@ -64,6 +68,15 @@ const productController = {
       queryCommand = queryCommand.sort(setSortBy);
     }
     console.log("formatQuery 2", formatQuery);
+    if (req.query.fields) {
+      console.log("req.query >>>> ", req.query);
+      const fields = req.query.fields.split(",").join(" ");
+      queryCommand = queryCommand.select(fields);
+    }
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 4;
+    const skip = (page - 1) * limit;
+    queryCommand.skip(skip).limit(limit);
     queryCommand
       .exec()
       .then(async (rs) => {
@@ -135,6 +148,52 @@ const productController = {
           status: newProduct ? 0 : -1,
           mess: newProduct ? "Cập nhập thành công" : "Cập nhập thất bại",
           data: newProduct ? newProduct : "",
+        });
+      }
+    }
+  }),
+  handleRatings: asyncHandler(async (req, res) => {
+    const { id } = req.auth;
+    console.log("id >>>", id);
+    const { star, comment, pid } = req.body;
+    if (!star || !pid) {
+      return res.status(400).json({
+        status: 1,
+        mess: "Đánh giá thất bại",
+      });
+    } else {
+      const productRating = await Product.findById(pid);
+      const checkIsUserRating = productRating?.ratings.find(
+        (el) => el?.voteBy.toString() === id
+      );
+      console.log("checkIsUserRating >>>>", checkIsUserRating);
+      if (checkIsUserRating) {
+        // User đã rating
+        await Product.updateOne(
+          {
+            ratings: { $elemMatch: checkIsUserRating },
+          },
+          {
+            $set: { "ratings.$.star": star, "ratings.$.comment": comment },
+          },
+          { new: true }
+        );
+        return res.status(400).json({
+          status: 0,
+          mess: "Đánh giá thành công",
+        });
+      } else {
+        // User chưa rating
+        await Product.findByIdAndUpdate(
+          pid,
+          {
+            $push: { ratings: { star, comment, voteBy: id } },
+          },
+          { new: true }
+        );
+        return res.status(400).json({
+          status: 0,
+          mess: "Đánh giá thành công",
         });
       }
     }
