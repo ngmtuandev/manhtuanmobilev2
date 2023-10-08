@@ -6,7 +6,7 @@ const Header = () => {
     <div className="flex justify-between items-center">
       <div>
         <span className="text-colorCyanDark text-[18px] font-semibold">
-          MẠNH TUẤN MOBILE
+          Nhật Huy Mobile
         </span>
       </div>
       <div className="relative">

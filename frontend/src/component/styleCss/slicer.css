@@ -1,0 +1,27 @@
+.slick-next {
+  margin-right: 100px;
+  position:absolute;
+  font-size: 24px;
+  color: #000; 
+  z-index: 100; 
+  cursor: pointer; 
+  width: 50px;
+  height: 100px;
+  background-color: red;
+}
+
+.slick-prev {
+  margin-left: 30px;
+  position:absolute;
+  font-size: 24px;
+  color: #000; 
+  z-index: 1; 
+  cursor: pointer; 
+}
+
+/* 
+
+.slick-next:hover,
+.slick-prev:hover {
+  color: #ff0000; 
+}  */
