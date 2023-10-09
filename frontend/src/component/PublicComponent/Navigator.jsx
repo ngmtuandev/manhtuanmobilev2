@@ -1,5 +1,4 @@
-import getApiCategory from "../../api/getApi";
-import { useEffect, useState } from "react";
+
 import { useSelector } from "react-redux";
 const Navigator = () => {
   // const [category, setCategory] = useState([]);
@@ -12,7 +11,7 @@ const Navigator = () => {
   // }, []);
 
   const { categories, isLoading } = useSelector((state) => state.app);
-  console.log("categories from redux tookit : ", categories);
+  // console.log("categories from redux tookit : ", categories);
 
   return (
     <div className="px-[12px] flex gap-14 justify-center">

@@ -27,7 +27,7 @@ const TabProduct = () => {
         fetchProduct()
     }, [])
 
-    console.log('data best selled >>>>>', productBestSelled)
+    // console.log('data best selled >>>>>', productBestSelled)
 
     const settings = {
         dots: true,

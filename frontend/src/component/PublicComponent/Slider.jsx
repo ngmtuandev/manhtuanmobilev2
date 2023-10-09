@@ -12,7 +12,7 @@ const Slider = () => {
   setIsLoading(true)
     const rs = await fetch(urlApiProduct);
     const imgs = await rs.json();
-    console.log('data >>>', imgs)
+    // console.log('data >>>', imgs)
     setImgSliders(imgs?.data);
     setIsLoading(false)
   };

@@ -1,6 +1,6 @@
 import React from "react";
 import { Slider } from "../../component";
-import Service from "./Service";
+// import Service from "./Service";
 import TabProduct from "./TabProduct";
 const Home = () => {
   return (
