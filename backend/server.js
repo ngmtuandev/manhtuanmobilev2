@@ -1,10 +1,17 @@
 const express = require("express");
 const mongooseDBConnect = require("./config/connectMongoose");
+const cors = require("cors");
 require("dotenv").config();
 const initRoute = require("./routes");
 var cookieParser = require("cookie-parser");
 
 const app = express();
+app.use(
+  cors({
+    origin: process.env.ACCEPT_IP,
+    methods: ["POST", "PUT", "GET", "DELETE"],
+  })
+);
 app.use(cookieParser());
 
 const PORT = process.env.PORT || 8888;

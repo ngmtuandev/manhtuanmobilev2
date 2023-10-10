@@ -2,6 +2,7 @@ import React from "react";
 import { Slider } from "../../component";
 // import Service from "./Service";
 import TabProduct from "./TabProduct";
+import ProductNewMyShop from "../../component/PublicComponent/ProductNewMyShop";
 const Home = () => {
   return (
    
@@ -14,6 +15,9 @@ const Home = () => {
       </div> */}
       <div className="-mt-36">
         <TabProduct></TabProduct>
+      </div>
+      <div>
+        <ProductNewMyShop></ProductNewMyShop>
       </div>
     </div>
   );

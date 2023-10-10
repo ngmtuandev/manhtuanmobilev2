@@ -48,8 +48,12 @@ const productController = {
   getAllProducts: asyncHandler(async (req, res) => {
     const allProduct = await Product.find();
     const queries = { ...req.query };
+
+    // Tách các trường đặc biệt ra khỏi query
     const excludeFields = ["limit", "sort", "page", "fields"];
     excludeFields.forEach((item) => delete queries[item]);
+
+    // format cho đúng kiểu dữ liệu Moongo DB có thể đọc được
     let queryString = JSON.stringify(queries);
     queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
     const formatQuery = JSON.parse(queryString);
@@ -64,6 +68,13 @@ const productController = {
       queryCommand = queryCommand.sort(setSortBy);
     }
     console.log("formatQuery 2", formatQuery);
+
+    // Pagination
+    const page = +req.query.page || 2;
+    console.log("page check >>>>", page);
+    const limit = +req.query.limit || 4;
+    const skip = (page - 1) * limit;
+    queryCommand.skip(skip).limit(limit);
     queryCommand
       .exec()
       .then(async (rs) => {
@@ -135,6 +146,45 @@ const productController = {
           status: newProduct ? 0 : -1,
           mess: newProduct ? "Cập nhập thành công" : "Cập nhập thất bại",
           data: newProduct ? newProduct : "",
+        });
+      }
+    }
+  }),
+  ratingProduct: asyncHandler(async (req, res) => {
+    const { id } = req.auth;
+    const { star, comment, pid } = req.body;
+    if (!star || !comment) {
+      return res.status(400).json({
+        status: 1,
+        mess: "Đánh giá sản phẩm thất bại",
+      });
+    } else {
+      const productRating = await Product.findById(pid);
+      const checkIsUserRated = await productRating?.ratings.find(
+        (el) => el.voteBy.toString() === id.toString()
+      );
+      if (checkIsUserRated) {
+        // Đã đánh giá trước đó --> updated
+        await Product.updateOne(
+          {
+            ratings: { $elemMatch: checkIsUserRated },
+          },
+          {
+            $set: { "ratings.$.star": star, "ratings.$.comment": comment },
+          }
+        );
+        return res.status(201).json({
+          status: 0,
+          mess: "Cập nhập bài đánh giá thành công",
+        });
+      } else {
+        // chưa đánh giá --> đánh giá mới
+        await Product.findByIdAndUpdate(pid, {
+          $push: { ratings: { star, comment, voteBy: id } },
+        });
+        return res.status(201).json({
+          status: 0,
+          mess: "Đánh giá thành công",
         });
       }
     }

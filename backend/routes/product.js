@@ -18,6 +18,7 @@ router.put(
   uploadFile.array("image", 10),
   productController.uploadFileProduct
 );
+router.put("/ratings", [verifyToken], productController.ratingProduct);
 router.get("/:id", productController.getOneProduct);
 router.put("/:id", [verifyToken, verifyAdmin], productController.updateProduct);
 router.delete(
