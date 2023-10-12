@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import path from "./untils/path";
-import { Home, Login, Public } from "./pages/publicPage/index";
+import { DetailProduct, Home, Login, Public } from "./pages/publicPage/index";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import "./index.css";
@@ -16,8 +16,9 @@ function App() {
       <Routes>
         <Route path={path.PUBLIC} element={<Public></Public>}>
           <Route path={path.HOME} element={<Home></Home>}></Route>
-          <Route path={path.LOGIN} element={<Login></Login>}></Route>
+          <Route path={path.PRODUCT_DETAIL__ID__NAME} element={<DetailProduct></DetailProduct>}></Route>
         </Route>
+          <Route path={path.LOGIN} element={<Login></Login>}></Route>
       </Routes>
     </div>
   );

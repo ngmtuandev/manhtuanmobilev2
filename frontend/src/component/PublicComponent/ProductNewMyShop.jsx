@@ -7,7 +7,7 @@ const ProductNewMyShop = () => {
     const [products, setProduct] = useState([])
     const [loading, setLoading] = useState(false)
     const getProducts = async () => {
-        const rs = await getApiProduct({ limit: 20 })
+        const rs = await getApiProduct({ limit: 10 })
         if (rs?.data.length > 0) {
             setProduct(rs?.data)
         }
