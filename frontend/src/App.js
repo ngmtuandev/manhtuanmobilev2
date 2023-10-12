@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import "./index.css";
 import actionFetchCategory from "./store/actionTypeAsync";
+import Register from "./pages/publicPage/Register";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
           <Route path={path.PRODUCT_DETAIL__ID__NAME} element={<DetailProduct></DetailProduct>}></Route>
         </Route>
           <Route path={path.LOGIN} element={<Login></Login>}></Route>
+          <Route path={path.REGISTER} element={<Register></Register>}></Route>
       </Routes>
     </div>
   );
