@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const InputField = ({value, setValue, nameKey, type, invalidField, setInvalidField}) => {
+const InputField = ({value, setValue, nameKey, type}) => {
     const [isLabel, setIsLabel] = useState(false)
   return (
     <div className='relative'>

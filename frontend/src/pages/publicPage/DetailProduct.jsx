@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import getApiDetailProduct from '../../api/getApiDetailProduct'
 const DetailProduct = () => {
+    const [product, setProduct] = useState([])
     const {id, name} = useParams()
-    console.log('id ??? name ???? ', id, name)
+    useEffect(() => {
+      (async() => {
+        const dataProduct = await getApiDetailProduct(id)
+        setProduct(dataProduct?.data)
+      })()
+    }, [id])
+    console.log('product current >>>>', product)
   return (
-    <div>DetailProduct</div>
+    <div>{product?.title}</div>
   )
 }
 
