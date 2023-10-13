@@ -4,7 +4,8 @@ const fetchApiRegister = (data) =>
   axios({
     url: "/user/register",
     method: "post",
-    data
+    data,
+    withCredentials: true
   });
 
 export default fetchApiRegister;

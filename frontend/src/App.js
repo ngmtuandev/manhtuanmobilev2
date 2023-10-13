@@ -6,12 +6,16 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import "./index.css";
 import actionFetchCategory from "./store/actionTypeAsync";
+import actionTypeAsyncLogin from "./store/actionTypeAsyncLogin";
 import Register from "./pages/publicPage/Register";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actionFetchCategory());
   }, []);
+  useEffect(() => {
+    dispatch(actionTypeAsyncLogin())
+  }, [])
   return (
     <div className="min-h-screen bg-bgDarkLight">
       <Routes>

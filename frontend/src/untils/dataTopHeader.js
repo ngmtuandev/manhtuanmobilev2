@@ -1,4 +1,5 @@
 import path from "./path";
+
 const dataTopHeader = [
   {
     id: 1,
@@ -11,22 +12,22 @@ const dataTopHeader = [
     path: path.INTRODUCTE,
   },
   {
-    id: 1,
+    id: 3,
     value: "Sản phẩm",
     path: path.PRODUCTS,
   },
   {
-    id: 1,
+    id: 4,
     value: "Tin tức",
     path: path.BLOGS,
   },
   {
-    id: 1,
+    id: 5,
     value: "Dịch vụ",
     path: path.OURSERVICES,
   },
   {
-    id: 1,
+    id: 6,
     value: "Đăng nhập",
     path: path.LOGIN,
   },

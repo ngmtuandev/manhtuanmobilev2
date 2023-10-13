@@ -1,41 +1,48 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import actionFetchCategory from "./actionTypeAsync";
+import actionTypeAsyncLogin from "./actionTypeAsyncLogin";
 export const userSlice = createSlice({
   name: "user",
   initialState: {
     token: '',
     isLogin: false,
+    isLoading: false,
+    dataUser: ''
   },
   reducers: {
     login: (state, action) => {
         console.log('action >>>', action)
         state.token = action?.payload?.accessToken
         state.isLogin = true
+    }, 
+    logout: (state, action) => {
+      state.token = null
+      state.isLogin = false
     }
   },
-//   extraReducers: (builder) => {
-//     // Peding ...
-//     builder.addCase(actionFetchCategory.pending, (state, action) => {
-//       state.categories = [];
-//       state.payload = false;
-//     });
 
-//     // full fill ...
-//     builder.addCase(actionFetchCategory.fulfilled, (state, action) => {
-//       state.categories = action.payload;
-//       state.payload = true;
-//       //   console.log("categories >>>>", state.categories);
-//     });
+  // XỬ LÝ ACTION GỌI BÊN NGOÀI SLICE
+  extraReducers: (builder) => {
+    // Peding ...
+    builder.addCase(actionTypeAsyncLogin.pending, (state, action) => {
+      state.isLoading = true
+    });
 
-//     // erorr
-//     builder.addCase(actionFetchCategory.rejected, (state, action) => {
-//       state.categories = null;
-//       state.payload = false;
-//     });
-//   },
+    // full fill ...
+    builder.addCase(actionTypeAsyncLogin.fulfilled, (state, action) => {
+      console.log('check action user in userSlice >>>', action.payload)
+      state.isLoading = false
+      state.dataUser = action?.payload
+    });
+
+    // erorr
+    builder.addCase(actionTypeAsyncLogin.rejected, (state, action) => {
+      state.isLoading = false
+      
+    });
+  },
 });
 
 // Action creators are generated for each case reducer function
-export const {login} = userSlice.actions;
+export const {login, logout} = userSlice.actions;
 
 export default userSlice.reducer;

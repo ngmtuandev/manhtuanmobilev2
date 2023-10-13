@@ -18,11 +18,21 @@ const Register = () => {
         // console.log(value)
         const dataRegister = await fetchApiRegister(value)
         console.log('dataRegister >>>', dataRegister)
+        if (+dataRegister?.status === 0) alert('Vui lòng kiểm tra email của bạn !')
         +dataRegister?.status === 0 ? setStatusRegister(true) : setStatusRegister(false)
     }
 
       const handleSubmit = React.useCallback(() => {
         fetchRegister()
+        setTimeout(() => {
+          setValue({
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            phone: ''
+          })
+        }, 2000)
       }, [value])
   return (
     <div className="px-main]">

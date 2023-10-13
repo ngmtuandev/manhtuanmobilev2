@@ -23,8 +23,6 @@ const userChema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      require: true,
-      unique: true,
     },
     addres: {
       type: Array,

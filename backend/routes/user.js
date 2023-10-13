@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.get("/current", verifyToken, userController.getUser);
+router.get("/completed/:token", userController.completedRegister);
 router.put("/address", verifyToken, userController.updateAddress);
 router.post("/refreshAccessToken", userController.refreshAccessTokenUser);
 router.get("/users", [verifyToken, verifyAdmin], userController.getAllUsers);
