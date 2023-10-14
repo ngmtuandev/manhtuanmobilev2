@@ -13,13 +13,17 @@ export const handleFormatStringToSlug = (string) => {
 
 export const renderStarProduct = (star) => {
   const stars = []
-  for (let i=0; i<= +star; i++) stars.push(<AiFillStar color="yellow"></AiFillStar>)
-  for (let i=5; i> +star; i--) stars.push(<AiOutlineStar></AiOutlineStar>)
+  for (let i=0; i<= +star; i++) stars.push(<AiFillStar size={22} color="yellow"></AiFillStar>)
+  for (let i=5; i> +star; i--) stars.push(<AiOutlineStar size={22}></AiOutlineStar>)
   return stars
 }
 
 export const formatMoney = (monney) => {
-  return Number(monney.toFixed(1)).toLocaleString()
+  return Number(monney?.toFixed(1)).toLocaleString()
+}
+
+export const formatPrice = number => {
+  return Math.round(number / 1000) * 1000
 }
 
 export const validateEmail = (email) => {
