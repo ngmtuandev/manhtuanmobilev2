@@ -23,9 +23,9 @@ instance.interceptors.request.use(function(config) {
   if (localStorageData && typeof localStorageData === 'string') {
     localStorageData = JSON.parse(localStorageData)
     const accessTokenLogin = JSON.parse(localStorageData?.token)
-    console.log('accessTokenLogin >>>>>', accessTokenLogin)
+    // console.log('accessTokenLogin >>>>>', accessTokenLogin)
     config.headers = {author : `Bearer ${accessTokenLogin}`}
-    console.log('check config in axios >>>>>', config)
+    // console.log('check config in axios >>>>>', config)
     return config // trả về data mới để gửi lên backend
   } else return config
 })

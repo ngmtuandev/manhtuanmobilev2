@@ -21,7 +21,7 @@ function App() {
       <Routes>
         <Route path={path.PUBLIC} element={<Public></Public>}>
           <Route path={path.HOME} element={<Home></Home>}></Route>
-          <Route path={path.PRODUCT_DETAIL__ID__NAME} element={<DetailProduct></DetailProduct>}></Route>
+          <Route path={path.PRODUCT_CATEGORY__ID__NAME} element={<DetailProduct></DetailProduct>}></Route>
         </Route>
           <Route path={path.LOGIN} element={<Login></Login>}></Route>
           <Route path={path.REGISTER} element={<Register></Register>}></Route>

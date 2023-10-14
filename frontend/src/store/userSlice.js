@@ -29,7 +29,7 @@ export const userSlice = createSlice({
 
     // full fill ...
     builder.addCase(actionTypeAsyncLogin.fulfilled, (state, action) => {
-      console.log('check action user in userSlice >>>', action.payload)
+      // console.log('check action user in userSlice >>>', action.payload)
       state.isLoading = false
       state.dataUser = action?.payload
     });

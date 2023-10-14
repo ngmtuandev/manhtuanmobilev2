@@ -53,9 +53,7 @@ const Login = () => {
             dispatch(login({...value, accessToken: dataLogin?.accessToken}))
             navigate(`${path.PUBLIC}`)
           }
-        }
-
-    
+        }    
 }
 
   const handleSubmit = useCallback(() => {

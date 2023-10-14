@@ -9,11 +9,11 @@ const ProductCardTab = ({product}) => {
     <div
     onMouseEnter={() => {
       setShowSelect(false)
-      console.log('set showwww >>>', showSelect)
+      // console.log('set showwww >>>', showSelect)
     }} 
     onMouseOut={() => {
       setShowSelect(true)
-      console.log('set showwww out>>>', showSelect)
+      // console.log('set showwww out>>>', showSelect)
     }}
     className='mx-2 flex flex-col justify-center relative items-center'>
         <img 

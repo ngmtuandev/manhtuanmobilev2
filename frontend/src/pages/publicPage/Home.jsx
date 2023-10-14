@@ -5,7 +5,6 @@ import TabProduct from "./TabProduct";
 import ProductNewMyShop from "../../component/PublicComponent/ProductNewMyShop";
 const Home = () => {
   return (
-   
     <div>
       <div className="mt-4 min-w-full flex justify-center items-center h-screen">
         <Slider></Slider>

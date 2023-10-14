@@ -4,18 +4,17 @@ import { Link } from 'react-router-dom'
 
 const ProductCard = ({product}) => {
     const [showSelect, setShowSelect] = useState(true)
+    // console.log('product >>>>>', product)
   return (
-    <Link to={`/sanpham/${product?._id}/${product?.title}`}>
+    <Link to={`/${product?.category.toLowerCase()}/${product?._id}/${product?.title}`}>
       <div className='flex-col justify-center items-center'>
           <div className='relative'>
               <img 
               onMouseEnter={() => {
                   setShowSelect(false)
-                  // console.log('set showwww >>>', showSelect)
                 }} 
                   onMouseOut={() => {
                   setShowSelect(true)
-                  // console.log('set showwww out>>>', showSelect)
                 }}
               src={product?.img.length > 0 ? product?.img[0] : 'https://i.pinimg.com/originals/8a/b2/1b/8ab21b1edaa6d6d3405af14cd018a91b.jpg'} alt="" />
               <div className='absolute top-2'>

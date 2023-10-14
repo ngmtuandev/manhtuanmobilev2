@@ -9,7 +9,7 @@ const path = {
   FAQS: "/faqs",
   INTRODUCTE: "/intrordcude",
   NEWPAPER: "/newpaper",
-  PRODUCT_DETAIL__ID__NAME: "/sanpham/:id/:name",
+  PRODUCT_CATEGORY__ID__NAME: "/:category/:id/:name",
 };
 
 export default path;
