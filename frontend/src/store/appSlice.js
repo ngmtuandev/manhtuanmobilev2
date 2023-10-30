@@ -18,7 +18,6 @@ export const appSlice = createSlice({
     builder.addCase(actionFetchCategory.fulfilled, (state, action) => {
       state.categories = action.payload;
       state.payload = true;
-      //   console.log("categories >>>>", state.categories);
     });
 
     // erorr

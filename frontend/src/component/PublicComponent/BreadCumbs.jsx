@@ -20,7 +20,9 @@ const BreadCumbs = ({category, title}) => {
                 // console.log('match >>>', match)
                 // match.pathname is a path in routes 
                 return <Link key={match?.pathname} to={match?.pathname}> 
-                {breadcrumb} 
+                <span className='font-semibold cursor-pointer hover:text-colorCyan'>
+                    {breadcrumb} 
+                </span>
                 <span>{index !== self.length - 1 && ' / '}</span>
             </Link>
             })

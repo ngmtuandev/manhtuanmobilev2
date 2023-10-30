@@ -4,6 +4,7 @@ import Button from "../../component/PublicComponent/Button";
 import { Link } from 'react-router-dom'
 import path from "../../untils/path";
 import fetchApiLogin from "../../api/fetchApiLogin";
+import { useFetchApi } from "../../custom-hook/useFetchApi";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +23,8 @@ const Login = () => {
     password: '',
     confirmpassword: ''
   })
+
+  const {apiLogin} = useFetchApi()
 
   const fetchLogin = async () => {
     
@@ -47,7 +50,7 @@ const Login = () => {
             }, 5000)
         }
         else {
-          const dataLogin = await fetchApiLogin(value)
+          const dataLogin = await apiLogin(value)
           console.log('dataLogin >>>', dataLogin)
           if (+dataLogin?.status === 0) {
             dispatch(login({...value, accessToken: dataLogin?.accessToken}))
