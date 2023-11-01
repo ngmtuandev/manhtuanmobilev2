@@ -59,10 +59,13 @@ const productController = {
     const formatQuery = JSON.parse(queryString);
     console.log("formatQuery", formatQuery);
 
+    // Filter
     if (queries?.title)
       formatQuery.title = { $regex: queries.title, $options: "i" };
     if (queries?.category)
       formatQuery.category = { $regex: queries.category, $options: "i" };
+    if (queries?.color)
+      formatQuery.color = { $regex: queries.color, $options: "i" };
     let queryCommand = Product.find(formatQuery);
     if (req.query.sort) {
       const setSortBy = req.query.sort.split(",").join(" ");
