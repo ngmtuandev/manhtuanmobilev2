@@ -4,14 +4,11 @@ import getApiDetailProduct from "../../api/getApiDetailProduct";
 import BreadCumbs from "../../component/PublicComponent/BreadCumbs";
 import SliderSlick from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
-import {
-  formatPrice,
-  formatMoney,
-  renderStarProduct,
-} from "../../untils/fnSuppport";
+import { formatMoney, renderStarProduct } from "../../untils/fnSuppport";
 import { create } from "zustand";
 import QualityProduct from "../../component/PublicComponent/QualityProduct";
-
+import TabDetailProduct from "../../component/PublicComponent/TabDetailProduct";
+import getApiProduct from "../../api/getApiProduct";
 const useApiCounter = create((set) => ({
   apiCallCount: 0,
   incrementApiCallCount: () =>
@@ -22,12 +19,13 @@ const DetailProduct = () => {
   const [product, setProduct] = useState([]);
   const [imgCurrent, setImgCurrent] = useState(product?.img);
   const [quality, setQuality] = useState(1);
+  const [productCategory, setProductCategory] = useState([]);
   // const [totalView, setTotalView] = useState(0)
   const { id, name, category } = useParams();
   // console.log('id >>>>', id, 'name >>>>', name, 'category >>>>', category)
   // console.log('breadcrumbs >>>>>', breadcrumbs)
 
-  console.log("use Api Couter in Zustash >>>>", useApiCounter());
+  // console.log("use Api Couter in Zustash >>>>", useApiCounter());
 
   const { apiCallCount, incrementApiCallCount } = useApiCounter();
 
@@ -67,8 +65,20 @@ const DetailProduct = () => {
     [quality]
   );
 
+  useEffect(() => {
+    (async () => {
+      const dataProductListCate = await getApiProduct({
+        category: product?.category,
+      });
+      if (dataProductListCate) {
+        setProductCategory(dataProductListCate?.data);
+      }
+    })();
+  }, []);
+
+  console.log("setProductCategory", productCategory);
   return (
-    <div className="px-main">
+    <div className="px-main h-[100%]">
       <div>
         {product?.title}
         <BreadCumbs title={name} category={category}></BreadCumbs>
@@ -149,6 +159,25 @@ const DetailProduct = () => {
           </div>
         </div>
         <div className="w-[23%] h-screen bg-slate-600">info shop</div>
+      </div>
+      <div className="mt-20">
+        <TabDetailProduct></TabDetailProduct>
+      </div>
+      <div className="mt-10 h-[500px]">
+        <SliderSlick {...settings}>
+          {productCategory?.map((el) => {
+            return (
+              <div
+                key={el?._id}
+                className=" w-[100px] flex justify-center items-center 
+                h-[350px] overflow-hidden"
+              >
+                <img className="w-[80%]" src={el?.img[0]}></img>
+                <p>{el?.title}</p>
+              </div>
+            );
+          })}
+        </SliderSlick>
       </div>
     </div>
   );

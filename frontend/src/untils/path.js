@@ -9,6 +9,7 @@ const path = {
   FAQS: "/faqs",
   INTRODUCTE: "/intrordcude",
   NEWPAPER: "/newpaper",
+  PRODUCTS__CATEGORY: "/products/:category",
   PRODUCT_CATEGORY__ID__NAME: "/:category/:id/:name",
 };
 

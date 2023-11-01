@@ -1,5 +1,5 @@
-
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 const Navigator = () => {
   // const [category, setCategory] = useState([]);
   // const fetchApiDataCategory = async () => {
@@ -21,7 +21,7 @@ const Navigator = () => {
             key={item._id}
             className="cursor-pointer hover:text-colorCyanDark"
           >
-            {item?.title}
+            <Link to={`/products/${item?.title}`}>{item?.title}</Link>
           </div>
         );
       })}
