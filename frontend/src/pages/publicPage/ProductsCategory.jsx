@@ -12,7 +12,7 @@ const ProductsCategory = () => {
   const [activeSort, setActiveSort] = useState("");
 
   const [colors] = useSearchParams();
-
+  console.log(colors);
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
@@ -25,12 +25,21 @@ const ProductsCategory = () => {
     for (let i of colors.entries()) {
       params.push(i);
     }
+    console.log(params);
     const queries = {};
     for (let i of params) {
       queries[i[0]] = i[1];
     }
     (async () => {
-      const dataRs = await getApiProduct(queries);
+      console.log(params);
+      console.log(queries);
+      const dataRs = await getApiProduct({
+        category: category,
+        limit: 30,
+        from: queries.from,
+        to: queries.to,
+        color: queries.color,
+      });
       if (dataRs) {
         setDataProductsCategory(dataRs?.data);
       }
@@ -82,7 +91,7 @@ const ProductsCategory = () => {
         {dataProductsCategory &&
           dataProductsCategory?.map((item, index) => {
             return (
-              <div key={index} className="w-[200px] h-[200px]">
+              <div key={index} className="w-[200px]">
                 <ProductCard product={item}></ProductCard>
               </div>
             );

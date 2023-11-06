@@ -112,7 +112,7 @@ const DetailProduct = () => {
                     className=" w-[150px] flex justify-center items-center 
                 h-[150px] overflow-hidden"
                   >
-                    <img className="object-contain mx-4" src={el}></img>
+                    <img className="object-cover mx-4" src={el}></img>
                   </div>
                 );
               })}

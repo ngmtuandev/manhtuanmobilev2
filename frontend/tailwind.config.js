@@ -1,6 +1,13 @@
+const withMT = require("@material-tailwind/react/utils/withMT");
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{html,js,jsx,ts}", "./public/index.html"],
+module.exports = withMT({
+  content: [
+    "./src/**/*.{html,js,jsx,ts}",
+    "./public/index.html",
+    "path-to-your-node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
+    "path-to-your-node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     padding: {
       main: "40px",
@@ -18,4 +25,4 @@ module.exports = {
     },
   },
   plugins: [require("@tailwindcss/forms")],
-};
+});
