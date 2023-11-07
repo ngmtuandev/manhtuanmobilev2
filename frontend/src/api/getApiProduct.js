@@ -5,6 +5,7 @@ const getApiProduct = (params) =>
     url: "/product/all-product",
     method: "get",
     params: params,
+   
   });
 
 export default getApiProduct;

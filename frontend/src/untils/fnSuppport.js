@@ -10,21 +10,22 @@ export const handleFormatStringToSlug = (string) => {
   // chuyển sang chữ thường -> chuyển sang chữ không dấu => cắt hết chữ ra -> nối lại bằng dấu -
 };
 
-
 export const renderStarProduct = (star) => {
-  const stars = []
-  for (let i=0; i<= +star; i++) stars.push(<AiFillStar size={22} color="yellow"></AiFillStar>)
-  for (let i=5; i> +star; i--) stars.push(<AiOutlineStar size={22}></AiOutlineStar>)
-  return stars
-}
+  const stars = [];
+  for (let i = 0; i < +star; i++)
+    stars.push(<AiFillStar size={22} color="yellow"></AiFillStar>);
+  for (let i = 5; i > +star; i--)
+    stars.push(<AiOutlineStar size={22}></AiOutlineStar>);
+  return stars;
+};
 
 export const formatMoney = (monney) => {
-  return Number(monney?.toFixed(1)).toLocaleString()
-}
+  return Number(monney?.toFixed(1)).toLocaleString();
+};
 
-export const formatPrice = number => {
-  return Math.round(number / 1000) * 1000
-}
+export const formatPrice = (number) => {
+  return Math.round(number / 1000) * 1000;
+};
 
 export const validateEmail = (email) => {
   return email.match(

@@ -1,6 +1,7 @@
 import React, { useState, memo } from "react";
 import dataTabDetail from "../../untils/dataTabDetail";
-const TabDetailProduct = () => {
+import JudgeProduct from "./JudgeProduct";
+const TabDetailProduct = ({ product, submitReiew }) => {
   console.log("dataService", dataTabDetail);
   const [tabCurrent, setTabCurrent] = useState(1);
   const handleSetTab = (id) => {
@@ -23,9 +24,16 @@ const TabDetailProduct = () => {
           );
         })}
       </div>
-      <div className="bg-gray-100 mt-4 min-h-[200px]">
+      <div className="bg-gray-800 mt-4 min-h-[200px]">
         <span className="text-gray-900">
-          {dataTabDetail.filter((item) => item?.id === tabCurrent)[0].data}
+          {tabCurrent === 6 ? (
+            <JudgeProduct
+              submitReiew={submitReiew}
+              product={product}
+            ></JudgeProduct>
+          ) : (
+            dataTabDetail.filter((item) => item?.id === tabCurrent)[0].data
+          )}
         </span>
       </div>
     </div>

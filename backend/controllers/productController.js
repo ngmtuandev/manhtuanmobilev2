@@ -45,69 +45,147 @@ const productController = {
       });
     }
   }),
+  // getAllProducts: asyncHandler(async (req, res) => {
+  //   const queries = { ...req.query };
+
+  //   // Tách các trường đặc biệt ra khỏi query
+  //   const excludeFields = ["limit", "sort", "page", "fields"];
+  //   excludeFields.forEach((item) => delete queries[item]);
+
+  //   // format cho đúng kiểu dữ liệu Moongo DB có thể đọc được
+  //   let queryString = JSON.stringify(queries);
+  //   queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
+  //   let formatQuery = JSON.parse(queryString);
+  //   console.log("formatQuery", formatQuery);
+
+  //   // Filter
+  //   if (queries?.title)
+  //     formatQuery.title = { $regex: queries.title, $options: "i" };
+  //   if (queries?.category)
+  //     formatQuery.category = { $regex: queries.category, $options: "i" };
+  //   if (queries?.color)
+  //     formatQuery.color = { $regex: queries.color, $options: "i" };
+  //   let queryCommand = Product.find(formatQuery);
+  //   if (req.query.sort) {
+  //     const setSortBy = req.query.sort.split(",").join(" ");
+  //     console.log("setSortBy : ", setSortBy);
+  //     queryCommand = queryCommand.sort(setSortBy);
+  //   }
+  //   console.log("formatQuery 2", formatQuery);
+
+  //   // Pagination
+  //   const page = +req.query.page || 2;
+  //   console.log("page check >>>>", page);
+  //   const limit = +req.query.limit || 4;
+  //   const skip = (page - 1) * limit;
+  //   queryCommand.skip(skip).limit(limit);
+  //   queryCommand
+  //     .exec()
+  //     .then(async (rs) => {
+  //       const count = await Product.find(formatQuery).countDocuments();
+  //       res.status(200).json({
+  //         status: 0,
+  //         mess: "Lấy tất cả sản phẩm thành công",
+  //         data: rs,
+  //         count,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       throw new Error(err.message);
+  //     });
+
+  //   // if (allProduct) {
+  //   //   res.status(200).json({
+  //   //     status: 0,
+  //   //     mess: "Lấy tất cả sản phẩm thành công",
+  //   //     data: allProduct,
+  //   //   });
+  //   // }
+  //   //  else {
+  //   //   res.status(401).json({
+  //   //     status: 1,
+  //   //     mess: "Lấy toàn bộ sản phẩm thất bại",
+  //   //   });
+  // }),
   getAllProducts: asyncHandler(async (req, res) => {
-    const allProduct = await Product.find();
     const queries = { ...req.query };
 
     // Tách các trường đặc biệt ra khỏi query
     const excludeFields = ["limit", "sort", "page", "fields"];
     excludeFields.forEach((item) => delete queries[item]);
 
-    // format cho đúng kiểu dữ liệu Moongo DB có thể đọc được
-    let queryString = JSON.stringify(queries);
-    queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
-    const formatQuery = JSON.parse(queryString);
-    console.log("formatQuery", formatQuery);
+    // Tạo một đối tượng truy vấn rỗng
+    let query = {};
 
-    // Filter
-    if (queries?.title)
-      formatQuery.title = { $regex: queries.title, $options: "i" };
-    if (queries?.category)
-      formatQuery.category = { $regex: queries.category, $options: "i" };
-    if (queries?.color)
-      formatQuery.color = { $regex: queries.color, $options: "i" };
-    let queryCommand = Product.find(formatQuery);
+    // Lọc theo tiêu đề (title)
+    if (queries.title) {
+      query.title = { $regex: queries.title, $options: "i" };
+    }
+
+    // Lọc theo danh mục (category)
+    if (queries.category) {
+      query.category = { $regex: queries.category, $options: "i" };
+    }
+
+    // Lọc theo màu sắc (color)
+    if (queries.color) {
+      query.color = { $regex: queries.color, $options: "i" };
+    }
+
+    // Lọc theo giá
+    if (queries.from && queries.to) {
+      query.price = {
+        $gte: queries.from, // Lớn hơn hoặc bằng `from`
+        $lte: queries.to, // Nhỏ hơn hoặc bằng `to`
+      };
+    }
+    // Nếu chỉ có tham số `from`, lọc từ `from` trở đi
+    else if (queries.from) {
+      query.price = {
+        $gte: queries.from,
+      };
+    }
+    // Nếu chỉ có tham số `to`, lọc từ `to` trở lại
+    else if (queries.to) {
+      query.price = {
+        $lte: queries.to,
+      };
+    }
+
+    // Truy vấn dựa trên đối tượng truy vấn
+    console.log(query);
+    let queryCommand = Product.find(query);
+
+    // Sắp xếp dữ liệu (nếu được yêu cầu)
     if (req.query.sort) {
       const setSortBy = req.query.sort.split(",").join(" ");
-      console.log("setSortBy : ", setSortBy);
       queryCommand = queryCommand.sort(setSortBy);
     }
-    console.log("formatQuery 2", formatQuery);
 
-    // Pagination
-    const page = +req.query.page || 2;
-    console.log("page check >>>>", page);
+    // Phân trang
+    const page = +req.query.page || 1;
     const limit = +req.query.limit || 4;
     const skip = (page - 1) * limit;
-    queryCommand.skip(skip).limit(limit);
-    queryCommand
-      .exec()
-      .then(async (rs) => {
-        const count = await Product.find(formatQuery).countDocuments();
-        res.status(200).json({
-          status: 0,
-          mess: "Lấy tất cả sản phẩm thành công",
-          data: rs,
-          count,
-        });
-      })
-      .catch((err) => {
-        throw new Error(err.message);
-      });
+    queryCommand = queryCommand.skip(skip).limit(limit);
 
-    // if (allProduct) {
-    //   res.status(200).json({
-    //     status: 0,
-    //     mess: "Lấy tất cả sản phẩm thành công",
-    //     data: allProduct,
-    //   });
-    // }
-    //  else {
-    //   res.status(401).json({
-    //     status: 1,
-    //     mess: "Lấy toàn bộ sản phẩm thất bại",
-    //   });
+    try {
+      const rs = await queryCommand.exec();
+      const count = await Product.countDocuments(query);
+
+      res.status(200).json({
+        status: 0,
+        mess: "Lấy tất cả sản phẩm thành công",
+        data: rs,
+        count,
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: 1,
+        mess: "Lấy toàn bộ sản phẩm thất bại",
+      });
+    }
   }),
+
   updateProduct: asyncHandler(async (req, res) => {
     const { id } = req.params;
     if (req.body && req.body.title) req.body.slug = slugify(req.body.title);

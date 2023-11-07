@@ -1,13 +1,16 @@
-import React from 'react'
+import React from "react";
 
-const Button = ({style, text, onSubmit}) => {
+const Button = ({ style, text, onSubmit }) => {
   return (
     <div>
-        <button 
+      <button
         onClick={onSubmit}
-        className='w-[100px] h-[30px] bg-colorCyan text-gray-100'>{text}</button>
+        className="w-[150px] h-[30px] rounded-2xl font-semibold bg-colorCyan text-gray-100"
+      >
+        {text}
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

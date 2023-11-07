@@ -18,7 +18,7 @@ const fnInsert = async (product) => {
     color: product?.variants?.find((item) => item.label === "Color")
       ?.variants[0],
     thumb: product?.thumb,
-    totalRating: Math.round(Math.random() * 5)
+    totalRating: 0,
   });
 };
 

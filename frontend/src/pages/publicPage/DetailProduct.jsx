@@ -9,6 +9,9 @@ import { create } from "zustand";
 import QualityProduct from "../../component/PublicComponent/QualityProduct";
 import TabDetailProduct from "../../component/PublicComponent/TabDetailProduct";
 import getApiProduct from "../../api/getApiProduct";
+import { useSelector, useDispatch } from "react-redux";
+import HandleVote from "../../component/PublicComponent/HandleVote";
+import { acionShowModel } from "../../store/modelSlice";
 const useApiCounter = create((set) => ({
   apiCallCount: 0,
   incrementApiCallCount: () =>
@@ -16,19 +19,18 @@ const useApiCounter = create((set) => ({
 }));
 
 const DetailProduct = () => {
+  const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
   const [imgCurrent, setImgCurrent] = useState(product?.img);
   const [quality, setQuality] = useState(1);
   const [productCategory, setProductCategory] = useState([]);
+  const [submitReiew, setSubmitReview] = useState(false);
   // const [totalView, setTotalView] = useState(0)
+  const { isShowModel } = useSelector((state) => state.model);
   const { id, name, category } = useParams();
-  // console.log('id >>>>', id, 'name >>>>', name, 'category >>>>', category)
-  // console.log('breadcrumbs >>>>>', breadcrumbs)
-
-  // console.log("use Api Couter in Zustash >>>>", useApiCounter());
 
   const { apiCallCount, incrementApiCallCount } = useApiCounter();
-
+  console.log("submitReiew : ", submitReiew);
   useEffect(() => {
     (async () => {
       const dataProduct = await getApiDetailProduct(id);
@@ -36,7 +38,7 @@ const DetailProduct = () => {
       setProduct(dataProduct?.data);
       setImgCurrent(product?.img);
     })();
-  }, [id]);
+  }, [id, submitReiew]);
 
   const settings = {
     prevArrow: false,
@@ -76,9 +78,13 @@ const DetailProduct = () => {
     })();
   }, []);
 
-  console.log("setProductCategory", productCategory);
+  const handleCloseModel = () => {
+    dispatch(acionShowModel({ isShowModel: false }));
+    console.log("isShowModel after : ", isShowModel);
+  };
+
   return (
-    <div className="px-main h-[100%]">
+    <div className="px-main relative h-[100%]">
       <div>
         {product?.title}
         <BreadCumbs title={name} category={category}></BreadCumbs>
@@ -161,7 +167,11 @@ const DetailProduct = () => {
         <div className="w-[23%] h-screen bg-slate-600">info shop</div>
       </div>
       <div className="mt-20">
-        <TabDetailProduct></TabDetailProduct>
+        <TabDetailProduct
+          submitReiew={submitReiew}
+          setSubmitReview={setSubmitReview}
+          product={product}
+        ></TabDetailProduct>
       </div>
       <div className="mt-10 h-[500px]">
         <SliderSlick {...settings}>
@@ -179,6 +189,18 @@ const DetailProduct = () => {
           })}
         </SliderSlick>
       </div>
+      {isShowModel && (
+        <div
+          onClick={handleCloseModel}
+          className="w-[100%] h-[100%] flex justify-center items-center z-100 absolute inset-0 bg-gray-600 bg-opacity-30 -mt-[200px]"
+        >
+          <HandleVote
+            submitReiew={submitReiew}
+            setSubmitReview={setSubmitReview}
+            pid={id}
+          ></HandleVote>
+        </div>
+      )}
     </div>
   );
 };
