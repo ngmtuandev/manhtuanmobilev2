@@ -31,7 +31,12 @@ const productController = {
   }),
   getOneProduct: asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const findProductCurrent = await Product.findById({ _id: id });
+    const findProductCurrent = await Product.findById({ _id: id }).populate({
+      path: "ratings",
+      populate: {
+        path: "voteBy",
+      },
+    });
     if (findProductCurrent) {
       res.status(200).json({
         status: 0,
