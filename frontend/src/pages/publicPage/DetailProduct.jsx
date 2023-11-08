@@ -27,8 +27,9 @@ const DetailProduct = () => {
   const [submitReiew, setSubmitReview] = useState(false);
   // const [totalView, setTotalView] = useState(0)
   const { isShowModel } = useSelector((state) => state.model);
+  const { token } = useSelector((state) => state.user);
   const { id, name, category } = useParams();
-
+  console.log("toekn : ", token);
   const { apiCallCount, incrementApiCallCount } = useApiCounter();
   console.log("submitReiew : ", submitReiew);
   useEffect(() => {

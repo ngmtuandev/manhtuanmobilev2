@@ -1,7 +1,7 @@
 import React, { useState, memo } from "react";
 import dataTabDetail from "../../untils/dataTabDetail";
 import JudgeProduct from "./JudgeProduct";
-const TabDetailProduct = ({ product, submitReiew }) => {
+const TabDetailProduct = ({ product, submitReiew, setSubmitReview }) => {
   console.log("dataService", dataTabDetail);
   const [tabCurrent, setTabCurrent] = useState(1);
   const handleSetTab = (id) => {
@@ -28,6 +28,7 @@ const TabDetailProduct = ({ product, submitReiew }) => {
         <span className="text-gray-900">
           {tabCurrent === 6 ? (
             <JudgeProduct
+              setSubmitReview={setSubmitReview}
               submitReiew={submitReiew}
               product={product}
             ></JudgeProduct>

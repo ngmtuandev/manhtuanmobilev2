@@ -1,44 +1,68 @@
-import React, { useEffect, useState } from 'react'
-import getApiProduct from '../../api/getApiProduct'
-import TitleTop from './TitleTop'
-import ProductCard from './ProductCard'
+import React, { useEffect, useState } from "react";
+import getApiProduct from "../../api/getApiProduct";
+import TitleTop from "./TitleTop";
+import ProductCard from "./ProductCard";
+import Paginations from "./Paginations";
 
 const ProductNewMyShop = () => {
-    const [products, setProduct] = useState([])
-    const [loading, setLoading] = useState(false)
-    const getProducts = async () => {
-        const rs = await getApiProduct({ limit: 10 })
-        if (rs?.data.length > 0) {
-            setProduct(rs?.data)
-        }
+  const [products, setProduct] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [pageCurrent, setPageCurrent] = useState(1);
+  const [dataProductInPage, setDataProductInPage] = useState([]);
+  const getProducts = async () => {
+    const rs = await getApiProduct({ limit: 55 });
+    if (rs?.data.length > 0) {
+      let startPage = (pageCurrent - 1) * 10 + 1;
+      const dataPrdInPage = rs?.data?.slice(startPage, startPage + 10);
+      setDataProductInPage(dataPrdInPage);
+      console.log(dataProductInPage);
+      setProduct(rs?.data);
     }
-    useEffect(() => {
-        setLoading(true)
-        getProducts()
-        setLoading(false)
-    }, [])
-    console.log('products >>>>', products)
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    getProducts();
+    setLoading(false);
+  }, [pageCurrent]);
+  console.log("products >>>>", products);
+
+  const paginate = (pageNumberChoose) => {
+    setPageCurrent(pageNumberChoose);
+  };
+
+  console.log(pageCurrent);
+
   return (
-    <div className='px-main'>
+    <div className="px-main">
       <div>
-        <TitleTop text={'Sản phẩm mới'}></TitleTop>
+        <TitleTop text={"Sản phẩm mới"}></TitleTop>
       </div>
-      {
-        loading ? 
+      {loading ? (
         <div>
           <span>loading....</span>
-        </div> : <div className='grid-cols-5 grid gap-4 mt-4'>
-        {
-          products?.map(el => {
-            return <div key={el?._id}>
-              <ProductCard product = {el}></ProductCard>
-            </div>
-          })
-        }
+        </div>
+      ) : (
+        <div className="grid-cols-5 grid gap-4 mt-4">
+          {dataProductInPage?.map((el) => {
+            return (
+              <div key={el?._id}>
+                <ProductCard product={el}></ProductCard>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      <div>
+        <Paginations
+          pageCurrent={pageCurrent}
+          onChangePage={paginate}
+          totalPrds={products?.length}
+          prdsPerPage={10}
+        ></Paginations>
       </div>
-      }
     </div>
-  )
-}
+  );
+};
 
-export default ProductNewMyShop
+export default ProductNewMyShop;

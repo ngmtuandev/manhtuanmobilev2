@@ -1,13 +1,31 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import TotalVote from "./TotalVote";
 import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";
 import { acionShowModel } from "../../store/modelSlice";
-const JudgeProduct = ({ product, submitReiew }) => {
+import { useLocation, useNavigate } from "react-router-dom";
+import ItemReview from "./ItemReview";
+const JudgeProduct = ({ product, submitReiew, setSubmitReview }) => {
   const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.user);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [totalReview, setTotalReview] = useState([]);
+  // console.log(product);
+  useEffect(() => {
+    setTotalReview(product?.ratings);
+  }, [product]);
+  // console.log("review : ", totalReview);
   const handleReview = () => {
-    dispatch(acionShowModel({ isShowModel: true }));
-  };
+    if (!token) {
+      // console.log(location);
+      navigate("/login", { state: location });
+    } else {
+      setSubmitReview(!submitReiew);
+      console.log("submitReiew: ", submitReiew);
+      dispatch(acionShowModel({ isShowModel: true }));
+    }
+  }; 
 
   return (
     <div>
@@ -24,7 +42,16 @@ const JudgeProduct = ({ product, submitReiew }) => {
           <Button onSubmit={handleReview} text={"Đánh giá sản phẩm"}></Button>
         </div>
       </div>
-      <div>reviewer</div>
+      <div>
+        {totalReview &&
+          totalReview?.map((el) => {
+            return (
+              <div key={el?._id}>
+                <ItemReview submitReiew={submitReiew} review={el}></ItemReview>
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };
