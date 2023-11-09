@@ -14,6 +14,8 @@ import "./index.css";
 import actionFetchCategory from "./store/actionTypeAsync";
 import actionTypeAsyncLogin from "./store/actionTypeAsyncLogin";
 import Register from "./pages/publicPage/Register";
+import { LayoutAdmin } from "./component/AdminComponent/index";
+import { LayoutMember } from "./component/MemberComponent/index";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -36,6 +38,14 @@ function App() {
             element={<DetailProduct></DetailProduct>}
           ></Route>
         </Route>
+        <Route
+          path={path.PUBLIC_ADMIN}
+          element={<LayoutAdmin></LayoutAdmin>}
+        ></Route>
+        <Route
+          path={path.PUBLIC_MEMBER}
+          element={<LayoutMember></LayoutMember>}
+        ></Route>
         <Route path={path.LOGIN} element={<Login></Login>}></Route>
         <Route path={path.REGISTER} element={<Register></Register>}></Route>
       </Routes>

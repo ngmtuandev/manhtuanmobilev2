@@ -60,7 +60,14 @@ const Login = () => {
           navigate(`${location?.state?.pathname}`);
           return;
         }
-        navigate(`${path.PUBLIC}`);
+        if (dataLogin?.data?.role === "user") {
+          navigate(`${path.PUBLIC}`);
+          return;
+        }
+        if (dataLogin?.data?.role === "admin") {
+          navigate(`${path.PUBLIC_ADMIN}`);
+          return;
+        }
       }
     }
   };
