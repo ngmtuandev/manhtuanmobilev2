@@ -14,7 +14,11 @@ import "./index.css";
 import actionFetchCategory from "./store/actionTypeAsync";
 import actionTypeAsyncLogin from "./store/actionTypeAsyncLogin";
 import Register from "./pages/publicPage/Register";
-import { LayoutAdmin } from "./component/AdminComponent/index";
+import {
+  Dashboard,
+  LayoutAdmin,
+  ManageUser,
+} from "./component/AdminComponent/index";
 import { LayoutMember } from "./component/MemberComponent/index";
 function App() {
   const dispatch = useDispatch();
@@ -38,10 +42,16 @@ function App() {
             element={<DetailProduct></DetailProduct>}
           ></Route>
         </Route>
-        <Route
-          path={path.PUBLIC_ADMIN}
-          element={<LayoutAdmin></LayoutAdmin>}
-        ></Route>
+        <Route path={path.PUBLIC_ADMIN} element={<LayoutAdmin></LayoutAdmin>}>
+          <Route
+            path={`${path.PUBLIC_ADMIN}${path.MANAGE_USER_ADMIN}`}
+            element={<ManageUser></ManageUser>}
+          ></Route>
+          <Route
+            path={`${path.PUBLIC_ADMIN}${path.DASBOARD_ADMIN}`}
+            element={<Dashboard></Dashboard>}
+          ></Route>
+        </Route>
         <Route
           path={path.PUBLIC_MEMBER}
           element={<LayoutMember></LayoutMember>}

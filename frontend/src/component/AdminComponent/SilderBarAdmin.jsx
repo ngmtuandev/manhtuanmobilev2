@@ -1,24 +1,25 @@
 import React, { Fragment, useState } from "react";
 import path from "../../untils/path";
 import icons from "../../untils/icons";
+import { NavLink } from "react-router-dom";
 const dataSideBar = [
   {
     id: 1,
     type: "single",
     text: "Dashboard",
-    path: `${path.HOME_ADMIN}${path.DASBOARD_ADMIN}`,
+    path: `${path.PUBLIC_ADMIN}${path.DASBOARD_ADMIN}`,
   },
   {
     id: 2,
     type: "single",
     text: "Manage user",
-    path: `${path.HOME_ADMIN}${path.MANAGE_USER_ADMIN}`,
+    path: `${path.PUBLIC_ADMIN}${path.MANAGE_USER_ADMIN}`,
   },
   {
     id: 3,
     type: "single",
     text: "Manage order",
-    path: `${path.HOME_ADMIN}${path.MANAGE_ORDER}`,
+    path: `${path.PUBLIC_ADMIN}${path.MANAGE_ORDER}`,
   },
   {
     id: 4,
@@ -27,11 +28,11 @@ const dataSideBar = [
     submenu: [
       {
         text: "Create Product",
-        path: `${path.HOME_ADMIN}${path.CREATE_PRODUCT_ADMIN}`,
+        path: `${path.PUBLIC_ADMIN}${path.CREATE_PRODUCT_ADMIN}`,
       },
       {
         text: "Manage Product",
-        path: `${path.HOME_ADMIN}${path.MANAGE_PRODUCT_ADMIN}`,
+        path: `${path.PUBLIC_ADMIN}${path.MANAGE_PRODUCT_ADMIN}`,
       },
     ],
   },
@@ -56,11 +57,11 @@ const SilderBarAdmin = () => {
                   key={el.id}
                   className="w-[96%] cursor-pointer bg-gray-200 my-2 h-[40px] flex items-center"
                 >
-                  <div>
+                  <NavLink to={el.path}>
                     <span className="pl-[8px] font-semibold text-gray-600">
                       {el.text}
                     </span>
-                  </div>
+                  </NavLink>
                 </div>
               ) : (
                 <div

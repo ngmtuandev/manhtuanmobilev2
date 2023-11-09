@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import SilderBarAdmin from "./SilderBarAdmin";
+import { Outlet } from "react-router-dom";
 
 const LayoutAdmin = () => {
   return (
@@ -7,7 +8,9 @@ const LayoutAdmin = () => {
       <div className="w-[20%] ">
         <SilderBarAdmin></SilderBarAdmin>
       </div>
-      <div className="w-[80%] ">Right</div>
+      <div className="w-[80%] ">
+        <Outlet></Outlet>
+      </div>
     </div>
   );
 };
