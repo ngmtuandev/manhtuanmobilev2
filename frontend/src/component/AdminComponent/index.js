@@ -3,3 +3,4 @@ export { default as HomeAdmin } from "./HomeAdmin";
 export { default as SilderBarAdmin } from "./SilderBarAdmin";
 export { default as ManageUser } from "./ManageUser";
 export { default as Dashboard } from "./Dashboard";
+export { default as CreateProduct } from "./CreateProduct";

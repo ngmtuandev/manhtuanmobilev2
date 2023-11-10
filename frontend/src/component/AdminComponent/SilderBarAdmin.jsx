@@ -85,12 +85,13 @@ const SilderBarAdmin = () => {
                     <div className="absolute inset-0 mt-12 ">
                       {el.submenu.map((item) => {
                         return (
-                          <div
+                          <NavLink
+                            to={item.path}
                             key={Math.random()}
                             className="w-[100%] pl-[16px] cursor-pointer h-[30px] flex items-center"
                           >
                             <span className="text-black">{item.text}</span>
-                          </div>
+                          </NavLink>
                         );
                       })}
                     </div>

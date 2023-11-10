@@ -1,14 +1,13 @@
 import React from "react";
+import { Spinner } from "@material-tailwind/react";
 
-const Button = ({ style, text, onSubmit }) => {
+const Button = ({ style, text, onSubmit, isLoading }) => {
   return (
-    <div>
-      <button
-        onClick={onSubmit}
-        className="w-[150px] h-[30px] rounded-2xl font-semibold bg-colorCyan text-gray-100"
-      >
+    <div className="flex w-[150px] h-[30px] rounded-2xl justify-center items-center font-semibold bg-colorCyan text-gray-100">
+      <button onClick={onSubmit} className={`${isLoading && "mr-3"}`}>
         {text}
       </button>
+      {isLoading ? <Spinner /> : ""}
     </div>
   );
 };

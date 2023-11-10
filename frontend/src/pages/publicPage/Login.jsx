@@ -18,6 +18,7 @@ const Login = () => {
   const [checkEmail, setCheckEmail] = useState(false);
   const [checkLengthPassword, setCheckLengthPassword] = useState(false);
   const [checkFieldInput, setCheckFieldInput] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   console.log("location : ", location?.state?.pathname);
 
@@ -52,7 +53,9 @@ const Login = () => {
         setCheckLengthPassword(false);
       }, 5000);
     } else {
+      setIsLoading(true);
       const dataLogin = await apiLogin(value);
+      setIsLoading(false);
       console.log("dataLogin >>>", dataLogin);
       if (+dataLogin?.status === 0) {
         dispatch(login({ ...value, accessToken: dataLogin?.accessToken }));
@@ -106,7 +109,11 @@ const Login = () => {
         {checkFieldInput && (
           <ErrText err={"Trường thông tin bạn không được bỏ trống"}></ErrText>
         )}
-        <Button onSubmit={handleSubmit} text={"Đăng nhập"}></Button>
+        <Button
+          isLoading={isLoading}
+          onSubmit={handleSubmit}
+          text={"Đăng nhập"}
+        ></Button>
         <div>
           <Link to={path.REGISTER}>
             <small>Đăng ký tài khoản</small>

@@ -15,6 +15,7 @@ import actionFetchCategory from "./store/actionTypeAsync";
 import actionTypeAsyncLogin from "./store/actionTypeAsyncLogin";
 import Register from "./pages/publicPage/Register";
 import {
+  CreateProduct,
   Dashboard,
   LayoutAdmin,
   ManageUser,
@@ -50,6 +51,10 @@ function App() {
           <Route
             path={`${path.PUBLIC_ADMIN}${path.DASBOARD_ADMIN}`}
             element={<Dashboard></Dashboard>}
+          ></Route>
+          <Route
+            path={`${path.PUBLIC_ADMIN}${path.CREATE_PRODUCT_ADMIN}`}
+            element={<CreateProduct></CreateProduct>}
           ></Route>
         </Route>
         <Route

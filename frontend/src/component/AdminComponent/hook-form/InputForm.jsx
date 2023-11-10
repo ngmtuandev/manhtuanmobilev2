@@ -10,6 +10,7 @@ const InputForm = ({
   type = "text",
   placeholder,
   defaultValue,
+  style,
 }) => {
   useEffect(() => {
     if (defaultValue !== undefined) {
@@ -20,7 +21,7 @@ const InputForm = ({
     <div className="flex flex-col relative">
       {label && <label htmlFor={id}>{label}</label>}
       <input
-        className="max-w-[150px] h-[30px]"
+        className={style ? style : "max-w-[150px] h-[30px]"}
         type={type}
         id={id}
         disabled={disabled}
