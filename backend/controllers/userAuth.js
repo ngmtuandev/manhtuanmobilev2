@@ -4,98 +4,98 @@ const bcrypt = require("bcrypt");
 const createAccessToken = require("../middeware/jwt.js");
 const refreshToken = require("../middeware/refreshToken.js");
 const jwt = require("jsonwebtoken");
-const renderToken = require('uniqid');
+const renderToken = require("uniqid");
 const sendEmailNodemailer = require("../untils/sendMailNodemailer.js");
 const userController = {
   register: asyncHandler(async (req, res) => {
     // console.log('req.body >>>>>>', req.body)
     const validateEmail = (email) => {
-          return email.match(
-            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          );
-        };
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+    };
     const { email, password, firstName, lastName } = req.body;
-    
+
     if (!email || !password || !firstName || !lastName) {
+      return res.status(400).json({
+        success: false,
+        status: -1,
+        mess: "Trường này không được bỏ trống",
+      });
+    } else {
+      if (!validateEmail(email)) {
+        return res.status(400).json({
+          success: false,
+          status: -1,
+          mess: "Trường bạn nhập phải là email",
+        });
+      } else {
+        const checkUser = await User.findOne({ email: email });
+        if (checkUser?.length > 0) {
           return res.status(400).json({
             success: false,
-            status: -1,
-            mess: "Trường này không được bỏ trống",
+            status: 1,
+            mess: "Tài khoản này đã tồn tại",
+          });
+        } else {
+          const token = renderToken();
+          console.log("token >>>>", token);
+          res.cookie(
+            "dataRegister",
+            { ...req.body, token },
+            { httpOnly: true, maxAge: 5 * 60 * 1000 }
+          );
+          const html = `Vui lòng nhấn vào link này để hoàn thành đăng kí tài khoản (Lưu ý tin thời gian cho tin nhắn này là 5 phút)
+                <a href=${process.env.URL_SERVER}/api/user/completed/${token}>Hoàn thành đăng ký</a>`;
+          await sendEmailNodemailer(req.body.email, html, "Hoàn tất đăng ký");
+          return res.json({
+            status: 0,
+            mess: "Vui lonhg check email",
           });
         }
-    else {
-      if (!validateEmail(email)) {
-              return res.status(400).json({
-                success: false,
-                status: -1,
-                mess: "Trường bạn nhập phải là email",
-              });
-            } else {
-              const checkUser = await User.findOne({ email: email });
-              if (checkUser?.length > 0) {
-                return res.status(400).json({
-                  success: false,
-                  status: 1,
-                  mess: "Tài khoản này đã tồn tại",
-                });
-              } 
-              else {
-                const token = renderToken()
-                console.log('token >>>>', token)
-                res.cookie('dataRegister', {...req.body, token}, {httpOnly: true, maxAge: 5*60*1000})
-                const html = `Vui lòng nhấn vào link này để hoàn thành đăng kí tài khoản (Lưu ý tin thời gian cho tin nhắn này là 5 phút)
-                <a href=${process.env.URL_SERVER}/api/user/completed/${token}>Hoàn thành đăng ký</a>`
-                await sendEmailNodemailer(req.body.email, html, 'Hoàn tất đăng ký')
-                return res.json({
-                  status: 0,
-                  mess: 'Vui lonhg check email'
-                })
-              }
-            }
+      }
     }
-    
   }),
-  completedRegister:  asyncHandler(async (req, res) => {
-    const cookieData = req.cookies
-    const {token} = req.params
+  completedRegister: asyncHandler(async (req, res) => {
+    const cookieData = req.cookies;
+    console.log("check req >>> : ", req);
+    const { token } = req.params;
     if (!token || !cookieData) {
-      res.clearCookie('dataRegister')
+      res.clearCookie("dataRegister");
       return res.status(401).json({
         status: -1,
-        mess: 'Tạo tài khoản không thành công'
-      })
+        mess: "Tạo tài khoản không thành công",
+      });
+    } else {
+      const password = cookieData?.dataRegister?.password;
+      const firstName = cookieData?.dataRegister?.firstName;
+      const lastName = cookieData?.dataRegister?.lastName;
+      const email = cookieData?.dataRegister?.email;
+      const phone = cookieData?.dataRegister?.phone;
+      // console.log("check data cookie >>>>", password);
+      let salt = await bcrypt.genSaltSync(5);
+      const hasdPassword = await bcrypt.hashSync(password, salt);
+      const newUser = await User.create({
+        password: hasdPassword,
+        firstName,
+        lastName,
+        email,
+        phone,
+      });
+      if (newUser) {
+        res.clearCookie("dataRegister");
+        console.log("check register successs");
+        return res.redirect(`${process.env.URL_CLIENT}/login`);
+      }
+      // return res.status(200).json({
+      //   success: newUser ? true : false,
+      //   status: 0,
+      //   mess: newUser
+      //     ? "Tạo tài khoản thành công"
+      //     : "Tạo tài khoản thất bại",
+      //   data: newUser,
+      // });
     }
-    else {
-          const password = cookieData?.dataRegister?.password
-          const firstName = cookieData?.dataRegister?.firstName
-          const lastName = cookieData?.dataRegister?.lastName
-          const email = cookieData?.dataRegister?.email
-          const phone = cookieData?.dataRegister?.phone
-          console.log('check data cookie >>>>', password)
-          let salt = await bcrypt.genSaltSync(5);
-          const hasdPassword = await bcrypt.hashSync(password, salt);
-          const newUser = await User.create({
-            password: hasdPassword,
-            firstName,
-            lastName,
-            email,
-            phone
-          });
-          if (newUser) {
-            res.clearCookie('dataRegister')
-            console.log('check register successs')
-            return res.redirect(`${process.env.URL_CLIENT}/login`)
-          }
-          // return res.status(200).json({
-          //   success: newUser ? true : false,
-          //   status: 0,
-          //   mess: newUser
-          //     ? "Tạo tài khoản thành công"
-          //     : "Tạo tài khoản thất bại",
-          //   data: newUser,
-          // });
-        }
-    
   }),
   login: asyncHandler(async (req, res) => {
     const { email, password, confirmpassword } = req.body;
@@ -154,7 +154,7 @@ const userController = {
               success: false,
               status: 0,
               mess: "Đăng nhập thành công",
-              data: userLogin,
+              data: { userLogin, role },
               accessToken: accessToken,
             });
           }
@@ -165,13 +165,13 @@ const userController = {
   getUser: asyncHandler(async (req, res) => {
     const { id } = req.auth;
     const userCurrent = await User.findById({ _id: id }).select(
-      "-password -role -refreshToken"
+      "-password -refreshToken"
     );
     console.log(userCurrent);
     return res.status(200).json({
       status: 0,
       mess: "Xác nhận người dùng thành công",
-      data: userCurrent
+      data: userCurrent,
     });
   }),
   refreshAccessTokenUser: async (req, res) => {
@@ -223,7 +223,8 @@ const userController = {
     }
   }),
   updateUser: asyncHandler(async (req, res) => {
-    const { id } = req.auth;
+    const { id } = req.body;
+    console.log("id user edit", id);
     if (id && req.body) {
       const findAndUpdated = await User.findByIdAndUpdate(id, req.body, {
         new: "true",
