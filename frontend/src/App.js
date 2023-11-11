@@ -21,6 +21,7 @@ import {
   ManageUser,
 } from "./component/AdminComponent/index";
 import { LayoutMember } from "./component/MemberComponent/index";
+import ManageProducts from "./component/AdminComponent/ManageProducts";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -55,6 +56,10 @@ function App() {
           <Route
             path={`${path.PUBLIC_ADMIN}${path.CREATE_PRODUCT_ADMIN}`}
             element={<CreateProduct></CreateProduct>}
+          ></Route>
+          <Route
+            path={`${path.PUBLIC_ADMIN}${path.MANAGE_PRODUCT_ADMIN}`}
+            element={<ManageProducts></ManageProducts>}
           ></Route>
         </Route>
         <Route

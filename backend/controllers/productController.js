@@ -10,7 +10,9 @@ const productController = {
       });
     } else {
       const { title, slug, ...data } = req.body;
-      console.log("data : ", data);
+      // const thumb = req?.files?.thumb[0];
+      // console.log("img : ", thumb);
+      // console.log("data : ", data);
       if (req.body && title) {
         const createSlug = await slugify(title);
         console.log("create slug", createSlug);
@@ -168,8 +170,11 @@ const productController = {
     }
 
     // Phân trang
+
+    const maxLimit = 1000;
+
     const page = +req.query.page || 1;
-    const limit = +req.query.limit || 4;
+    const limit = +req.query.limit || maxLimit;
     const skip = (page - 1) * limit;
     queryCommand = queryCommand.skip(skip).limit(limit);
 

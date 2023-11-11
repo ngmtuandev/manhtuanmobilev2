@@ -21,7 +21,7 @@ const useApiCounter = create((set) => ({
 const DetailProduct = () => {
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
-  const [imgCurrent, setImgCurrent] = useState(product?.img);
+  const [imgCurrent, setImgCurrent] = useState(product?.thumb);
   const [quality, setQuality] = useState(1);
   const [productCategory, setProductCategory] = useState([]);
   const [submitReiew, setSubmitReview] = useState(false);
@@ -29,6 +29,7 @@ const DetailProduct = () => {
   const { isShowModel } = useSelector((state) => state.model);
   const { token } = useSelector((state) => state.user);
   const { id, name, category } = useParams();
+  console.log("imgCurrent : ", product?.thumb);
   console.log("toekn : ", token);
   const { apiCallCount, incrementApiCallCount } = useApiCounter();
   console.log("submitReiew : ", submitReiew);
@@ -37,7 +38,7 @@ const DetailProduct = () => {
       const dataProduct = await getApiDetailProduct(id);
       incrementApiCallCount();
       setProduct(dataProduct?.data);
-      setImgCurrent(product?.img);
+      setImgCurrent(product?.thumb);
     })();
   }, [id, submitReiew]);
 
@@ -77,6 +78,7 @@ const DetailProduct = () => {
         setProductCategory(dataProductListCate?.data);
       }
     })();
+    window.scrollTo(0, 0);
   }, []);
 
   const handleCloseModel = () => {
@@ -99,7 +101,7 @@ const DetailProduct = () => {
                 smallImage: {
                   alt: "product",
                   isFluidWidth: true,
-                  src: imgCurrent || product?.img,
+                  src: imgCurrent || product?.thumb,
                 },
                 largeImage: {
                   src: imgCurrent,
@@ -152,11 +154,9 @@ const DetailProduct = () => {
             {renderStarProduct(product?.ratings?.length || 3)}
           </div>
           <div>
-            <ul>
-              {product?.desc?.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
+            {product?.desc && (
+              <div dangerouslySetInnerHTML={{ __html: product?.desc[0] }} />
+            )}
           </div>
           <div>
             <QualityProduct

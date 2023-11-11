@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-const MceTinyText = ({ setDesc }) => {
+const MceTinyText = ({ setDesc, hight }) => {
   const editorRef = useRef(null);
   //   const log = () => {
   //     if (editorRef.current) {
@@ -16,7 +16,7 @@ const MceTinyText = ({ setDesc }) => {
         onInit={(evt, editor) => (editorRef.current = editor)}
         // initialValue="<p>This is the initial content of the editor.</p>"
         init={{
-          height: 300,
+          height: hight ? +hight : 300,
           menubar: false,
           plugins: [
             "advlist",

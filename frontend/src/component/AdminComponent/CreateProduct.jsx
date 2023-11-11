@@ -1,12 +1,20 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import InputForm from "./hook-form/InputForm";
 import MceTinyText from "./MceTinyText";
+import { getBase64 } from "../../untils/fnSuppport";
+import fetchCreateProduct from "../../api/fetchApiAdmin/createProduct";
+import swal from "sweetalert";
+import COLORS from "../../untils/dataColor";
+
 const CreateProduct = () => {
   const { categories } = useSelector((state) => state.app);
   //   console.log(categories);
   const [desc, setDesc] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [color, setColor] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -14,6 +22,7 @@ const CreateProduct = () => {
     formState: { errors },
     reset,
     getValues,
+    watch,
   } = useForm({
     title: "",
     brand: "",
@@ -23,15 +32,84 @@ const CreateProduct = () => {
     discount: 0,
   });
 
-  const handleCreateProduct = () => {
+  const [imgPreView, setImgPreView] = useState({
+    thumb: "",
+    img: "",
+  });
+
+  const handleCreateProduct = async () => {
     const data = getValues();
-    console.log({ ...data, desc });
+    const dataFull = { ...data, desc, category: selectedValue };
+    const formData = new FormData();
+    for (let i of Object.entries(dataFull)) {
+      formData.append(i[0], i[1]);
+    }
+    for (let j of formData.entries()) {
+      console.log(j[0] + "," + j[1]);
+    }
+    if (dataFull && imgPreView.thumb !== "" && imgPreView.img !== "") {
+      setIsLoading(true);
+      const rs = await fetchCreateProduct({
+        ...dataFull,
+        ...imgPreView,
+        color,
+      });
+      setIsLoading(false);
+      console.log(rs?.status);
+      console.log("++rs.status === 0", rs?.status == 0);
+      if (rs?.status == 0) {
+        swal("Tạo sản phẩm mới thành công");
+        reset();
+        setImgPreView({
+          thumb: "",
+          img: "",
+        });
+      }
+    }
   };
 
+  const handleSelectChange = (e) => {
+    console.log(e.target.value);
+    setSelectedValue(e.target.value);
+  };
+
+  const handleSelectColor = (e) => {
+    setColor(e.target.value);
+  };
+
+  const handleImgPreView = async (file) => {
+    console.log("file : ", file);
+    const imgPreviewBase64 = await getBase64(file);
+    console.log("imgPreviewBase64", imgPreviewBase64);
+    setImgPreView((prev) => ({ ...prev, thumb: imgPreviewBase64 }));
+  };
+
+  const handleImgProductsPreView = async (files) => {
+    const listDataImgs = [];
+    for (let i of files) {
+      const imgBase64 = await getBase64(i);
+      listDataImgs.push(imgBase64);
+    }
+    console.log("listDataImgs >>>>", listDataImgs);
+    if (listDataImgs.length > 0) {
+      setImgPreView((prev) => ({ ...prev, img: listDataImgs }));
+    }
+  };
+
+  useEffect(() => {
+    // console.log("thumb change");
+    // console.log(watch("thumb")[0].name);
+    handleImgPreView(watch("thumb")[0]);
+  }, [watch("thumb")]);
+
+  useEffect(() => {
+    handleImgProductsPreView(watch("img"));
+  }, [watch("img")]);
+
   return (
-    <div className="px-main">
+    <div className="px-main h-full">
       <div>Create Product</div>
-      <button onClick={handleCreateProduct}>Tạo sản phẩm</button>
+
       <form onSubmit={handleSubmit(handleCreateProduct)}>
         <div className="flex gap-4">
           <div>
@@ -105,7 +183,7 @@ const CreateProduct = () => {
             ></InputForm>
           </div>
         </div>
-        <div>
+        <div className="flex items-center gap-4">
           <InputForm
             register={register}
             errors={errors}
@@ -118,13 +196,77 @@ const CreateProduct = () => {
               required: "Trường này không được bỏ trống",
             }}
           ></InputForm>
+          <div className="w-52 relative">
+            <select
+              value={selectedValue}
+              onChange={handleSelectChange}
+              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8   leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            >
+              <option value="" disabled selected>
+                Chọn danh mục
+              </option>
+              {categories?.map((el) => {
+                return <option value={el.title}>{el.title}</option>;
+              })}
+            </select>
+          </div>
+          <div className="w-52 relative">
+            <select
+              value={color}
+              onChange={handleSelectColor}
+              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8   leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            >
+              <option value="" disabled selected>
+                Chọn màu sản phẩm
+              </option>
+              {COLORS?.map((el) => {
+                return <option value={el.color}>{el.color}</option>;
+              })}
+            </select>
+          </div>
+        </div>
+        <div className="mt-4">
+          <MceTinyText
+            // onCreateProduct={handleCreateProduct}
+            setDesc={setDesc}
+          ></MceTinyText>
+        </div>
+        <div className="flex mt-4 gap-4">
+          <div>
+            <label htmlFor="thumb">Ảnh thumb</label>
+            <input
+              {...register("thumb", {
+                required: "Bạn phải có hình ảnh sản phẩm",
+              })}
+              type="file"
+              id="thumb"
+            />
+            {errors["thumb"] && <small>{errors["thumb"]?.message}</small>}
+            {imgPreView.thumb && (
+              <img className="w-[100px] h-[100px]" src={imgPreView.thumb}></img>
+            )}
+          </div>
+          <div>
+            <label htmlFor="img">Ảnh sản phẩm</label>
+            <input
+              {...register("img", {
+                required: "Bạn phải có hình ảnh sản phẩm",
+              })}
+              type="file"
+              multiple
+              id="img"
+            />
+            {errors["img"] && <small>{errors["img"]?.message}</small>}
+            {imgPreView?.img &&
+              imgPreView?.img?.map((el) => {
+                return <img className="w-[100px] h-[100px]" src={el}></img>;
+              })}
+          </div>
         </div>
       </form>
-      <div className="mt-4">
-        <MceTinyText
-          // onCreateProduct={handleCreateProduct}
-          setDesc={setDesc}
-        ></MceTinyText>
+      <div className="w-[150px] text-gray-50 font-bold rounded-lg mt-4 h-[30px] bg-red-500 flex">
+        <button onClick={handleCreateProduct}>Tạo sản phẩm</button>
+        {isLoading ? <span>....</span> : ""}
       </div>
     </div>
   );

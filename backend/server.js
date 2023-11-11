@@ -10,14 +10,14 @@ app.use(
   cors({
     origin: process.env.ACCEPT_IP,
     methods: ["POST", "PUT", "GET", "DELETE"],
-    credentials: true
+    credentials: true,
   })
 );
 app.use(cookieParser());
 
 const PORT = process.env.PORT || 8888;
-app.use(express.json()); // đọc hiểu data từ client gửi lên theo kiểu json
-app.use(express.urlencoded({ extended: true })); // đọc đc data theo kiểu urlencode : aray, object
+app.use(express.json({ limit: "50mb" })); // đọc hiểu data từ client gửi lên theo kiểu json
+app.use(express.urlencoded({ extended: true, limit: "50mb" })); // đọc đc data theo kiểu urlencode : aray, object
 // const connectMongoose = async () => {
 //   await mongoose
 //     .connect(process.env.URI_MONGOOSE)

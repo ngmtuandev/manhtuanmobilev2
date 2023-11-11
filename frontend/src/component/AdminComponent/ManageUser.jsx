@@ -92,28 +92,28 @@ const ManageUser = () => {
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" class="px-6 py-3">
+                  <th className="text-center" scope="col" class="px-6 py-3">
                     #
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th className="text-center" scope="col" class="px-6 py-3">
                     Địa chỉ email
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th className="text-center" scope="col" class="px-6 py-3">
                     Tên tài khoản
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th className="text-center" scope="col" class="px-6 py-3">
                     Tên cuối tài khoản
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th className="text-center" scope="col" class="px-6 py-3">
                     Số điện thoại
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th className="text-center" scope="col" class="px-6 py-3">
                     Trạng thái
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th className="text-center" scope="col" class="px-6 py-3">
                     Ngày tạo
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th className="text-center" scope="col" class="px-6 py-3">
                     Hành động
                   </th>
                 </tr>

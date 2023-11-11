@@ -39,6 +39,9 @@ const productSchema = new mongoose.Schema(
     img: {
       type: Array,
     },
+    thumb: {
+      type: String,
+    },
     discount: {
       type: Number,
       default: 0,

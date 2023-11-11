@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getApiProduct from "../../api/getApiProduct";
 import BreadCumbs from "../../component/PublicComponent/BreadCumbs";
@@ -6,11 +6,13 @@ import Masonry from "react-masonry-css";
 import ProductCard from "../../component/PublicComponent/ProductCard";
 import SortItem from "../../component/PublicComponent/SortItem";
 import { useSearchParams } from "react-router-dom";
+import { Spinner } from "@material-tailwind/react";
+
 const ProductsCategory = () => {
   const { category } = useParams();
   const [dataProductsCategory, setDataProductsCategory] = useState([]);
   const [activeSort, setActiveSort] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   const [colors] = useSearchParams();
   console.log(colors);
   const breakpointColumnsObj = {
@@ -33,6 +35,7 @@ const ProductsCategory = () => {
     (async () => {
       console.log(params);
       console.log(queries);
+      setIsLoading(true);
       const dataRs = await getApiProduct({
         category: category,
         limit: 30,
@@ -40,6 +43,7 @@ const ProductsCategory = () => {
         to: queries.to,
         color: queries.color,
       });
+      setIsLoading(false);
       if (dataRs) {
         setDataProductsCategory(dataRs?.data);
       }
@@ -54,50 +58,60 @@ const ProductsCategory = () => {
     [activeSort]
   );
   return (
-    <div className="px-main mt-5">
-      <div>
-        <div>
-          <span className="uppercase font-bold text-[20px]">{category}</span>
-          <BreadCumbs category={category}></BreadCumbs>
-        </div>
-      </div>
-      <div className="flex mt-5">
-        <div className="w-4/5 h-[400px] ">
-          <div>Filter by : </div>
-          <div className="flex">
-            <SortItem
-              onSetSort={handleSetActiveSort}
-              activeSort={activeSort}
-              text={"Giá"}
-              type={"text"}
-            ></SortItem>
-            <SortItem
-              onSetSort={handleSetActiveSort}
-              activeSort={activeSort}
-              text={"Màu sắc"}
-              type={"checkbox"}
-            ></SortItem>
+    <Fragment>
+      {/* {isLoading ? (
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="mt-36">
+            <Spinner color="blue" className="h-12 w-12" />
           </div>
         </div>
-        <div className="w-1/5 h-[400px] ">
-          <div>Sort by : </div>
+      ) : ( */}
+      <div className="px-main mt-5">
+        <div>
+          <div>
+            <span className="uppercase font-bold text-[20px]">{category}</span>
+            <BreadCumbs category={category}></BreadCumbs>
+          </div>
         </div>
+        <div className="flex mt-5">
+          <div className="w-4/5 h-[400px] ">
+            <div>Filter by : </div>
+            <div className="flex">
+              <SortItem
+                onSetSort={handleSetActiveSort}
+                activeSort={activeSort}
+                text={"Giá"}
+                type={"text"}
+              ></SortItem>
+              <SortItem
+                onSetSort={handleSetActiveSort}
+                activeSort={activeSort}
+                text={"Màu sắc"}
+                type={"checkbox"}
+              ></SortItem>
+            </div>
+          </div>
+          <div className="w-1/5 h-[400px] ">
+            <div>Sort by : </div>
+          </div>
+        </div>
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid -mt-72"
+          columnClassName="my-masonry-grid_column"
+        >
+          {dataProductsCategory &&
+            dataProductsCategory?.map((item, index) => {
+              return (
+                <div key={index} className="w-[200px]">
+                  <ProductCard product={item}></ProductCard>
+                </div>
+              );
+            })}
+        </Masonry>
       </div>
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className="my-masonry-grid -mt-72"
-        columnClassName="my-masonry-grid_column"
-      >
-        {dataProductsCategory &&
-          dataProductsCategory?.map((item, index) => {
-            return (
-              <div key={index} className="w-[200px]">
-                <ProductCard product={item}></ProductCard>
-              </div>
-            );
-          })}
-      </Masonry>
-    </div>
+      {/* )} */}
+    </Fragment>
   );
 };
 
