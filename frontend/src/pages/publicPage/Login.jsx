@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from "react";
-import InputField from "../../component/PublicComponent/InputField";
+import InputField from "../../component/PublicComponent/form/InputField";
 import Button from "../../component/PublicComponent/Button";
 import { Link } from "react-router-dom";
 import path from "../../untils/path";
-import fetchApiLogin from "../../api/fetchApiLogin";
-import { useFetchApi } from "../../custom-hook/useFetchApi";
+import { useFetchApi } from "../../hook/useFetchApi";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";

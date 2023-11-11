@@ -1,8 +1,8 @@
 import React, { memo, useEffect, useState } from "react";
 import TotalVote from "./TotalVote";
-import Button from "./Button";
+import Button from "../Button";
 import { useDispatch, useSelector } from "react-redux";
-import { acionShowModel } from "../../store/modelSlice";
+import { acionShowModel } from "../../../store/modelSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import ItemReview from "./ItemReview";
 const JudgeProduct = ({ product, submitReiew, setSubmitReview }) => {
@@ -25,7 +25,7 @@ const JudgeProduct = ({ product, submitReiew, setSubmitReview }) => {
       console.log("submitReiew: ", submitReiew);
       dispatch(acionShowModel({ isShowModel: true }));
     }
-  }; 
+  };
 
   return (
     <div>

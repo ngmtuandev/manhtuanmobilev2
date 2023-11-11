@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import icons from "../../untils/icons";
-import Button from "./Button";
-import fetchApiRatingProduct from "../../api/fetchAPIReviewProduct";
+import icons from "../../../untils/icons";
+import Button from "../Button";
+import fetchApiRatingProduct from "../../../api/fetchAPIReviewProduct";
 import { useSelector } from "react-redux";
 const OPTION_VOTE = [
   {

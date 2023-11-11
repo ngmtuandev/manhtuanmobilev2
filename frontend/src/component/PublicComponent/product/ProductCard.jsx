@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { formatMoney } from "../../untils/fnSuppport";
+import { formatMoney } from "../../../untils/fnSuppport";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";

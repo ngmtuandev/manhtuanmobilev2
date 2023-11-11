@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Slider } from "../../component";
 // import Service from "./Service";
 import TabProduct from "./TabProduct";
-import ProductNewMyShop from "../../component/PublicComponent/ProductNewMyShop";
+import ProductNewMyShop from "../../component/PublicComponent/product/ProductNewMyShop";
 import { useSelector } from "react-redux";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";

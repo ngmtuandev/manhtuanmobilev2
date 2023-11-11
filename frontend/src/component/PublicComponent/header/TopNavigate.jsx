@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import dataTopHeader from "../../untils/dataTopHeader";
+import dataTopHeader from "../../../untils/dataTopHeader";
 import { useSelector } from "react-redux";
 const TopNavigate = () => {
   const { dataUser, isLoading, isLogin } = useSelector((state) => state.user);

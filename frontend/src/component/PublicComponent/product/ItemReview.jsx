@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { renderStarProduct } from "../../untils/fnSuppport";
+import { renderStarProduct } from "../../../untils/fnSuppport";
 
 const ItemReview = ({ review }) => {
   return (

@@ -1,10 +1,10 @@
 import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getApiProduct from "../../api/getApiProduct";
-import BreadCumbs from "../../component/PublicComponent/BreadCumbs";
+import BreadCumbs from "../../component/PublicComponent/breadcumb/BreadCumbs";
 import Masonry from "react-masonry-css";
-import ProductCard from "../../component/PublicComponent/ProductCard";
-import SortItem from "../../component/PublicComponent/SortItem";
+import ProductCard from "../../component/PublicComponent/product/ProductCard";
+import SortItem from "../../component/PublicComponent/product/SortItem";
 import { useSearchParams } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
 

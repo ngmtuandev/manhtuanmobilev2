@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import getApiProduct from "../../api/getApiProduct";
-import TitleTop from "./TitleTop";
+import getApiProduct from "../../../api/getApiProduct";
+import TitleTop from "../header/TitleTop";
 import ProductCard from "./ProductCard";
-import Paginations from "./Paginations";
+import Paginations from "../pagination/Paginations";
 
 const ProductNewMyShop = () => {
   const [products, setProduct] = useState([]);

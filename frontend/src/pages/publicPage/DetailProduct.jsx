@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getApiDetailProduct from "../../api/getApiDetailProduct";
-import BreadCumbs from "../../component/PublicComponent/BreadCumbs";
+import BreadCumbs from "../../component/PublicComponent/breadcumb/BreadCumbs";
 import SliderSlick from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
 import { formatMoney, renderStarProduct } from "../../untils/fnSuppport";
 import { create } from "zustand";
-import QualityProduct from "../../component/PublicComponent/QualityProduct";
-import TabDetailProduct from "../../component/PublicComponent/TabDetailProduct";
+import QualityProduct from "../../component/PublicComponent/product/QualityProduct";
+import TabDetailProduct from "../../component/PublicComponent/product/TabDetailProduct";
 import getApiProduct from "../../api/getApiProduct";
 import { useSelector, useDispatch } from "react-redux";
-import HandleVote from "../../component/PublicComponent/HandleVote";
+import HandleVote from "../../component/PublicComponent/product/HandleVote";
 import { acionShowModel } from "../../store/modelSlice";
 const useApiCounter = create((set) => ({
   apiCallCount: 0,

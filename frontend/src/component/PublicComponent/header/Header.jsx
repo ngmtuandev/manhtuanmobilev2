@@ -1,7 +1,7 @@
 import React from "react";
-import icons from "../../untils/icons";
+import icons from "../../../untils/icons";
 import { useSelector } from "react-redux";
-import { logout } from "../../store/userSlice";
+import { logout } from "../../../store/userSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 const Header = () => {

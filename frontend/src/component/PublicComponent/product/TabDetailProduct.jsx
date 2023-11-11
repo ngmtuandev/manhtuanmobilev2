@@ -1,5 +1,5 @@
 import React, { useState, memo } from "react";
-import dataTabDetail from "../../untils/dataTabDetail";
+import dataTabDetail from "../../../untils/dataTabDetail";
 import JudgeProduct from "./JudgeProduct";
 const TabDetailProduct = ({ product, submitReiew, setSubmitReview }) => {
   console.log("dataService", dataTabDetail);

@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from "react";
-import { renderStarProduct } from "../../untils/fnSuppport";
-import icons from "../../untils/icons";
+import { renderStarProduct } from "../../../untils/fnSuppport";
+import icons from "../../../untils/icons";
 const TotalVote = ({ product }) => {
   console.log("rating total vote  : ", product);
   const { AiFillStar } = icons;

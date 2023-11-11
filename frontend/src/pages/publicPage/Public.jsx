@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Header, Navigator, TopNavigate } from "../../component";
+import { Header, TopNavigate, Navigator } from "../../component";
 const Public = () => {
   return (
     <div className="text-white">
