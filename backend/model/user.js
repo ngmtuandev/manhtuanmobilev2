@@ -32,6 +32,9 @@ const userChema = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    avatar: {
+      type: String,
+    },
     cart: [
       {
         product: {

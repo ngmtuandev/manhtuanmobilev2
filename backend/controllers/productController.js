@@ -52,68 +52,7 @@ const productController = {
       });
     }
   }),
-  // getAllProducts: asyncHandler(async (req, res) => {
-  //   const queries = { ...req.query };
 
-  //   // Tách các trường đặc biệt ra khỏi query
-  //   const excludeFields = ["limit", "sort", "page", "fields"];
-  //   excludeFields.forEach((item) => delete queries[item]);
-
-  //   // format cho đúng kiểu dữ liệu Moongo DB có thể đọc được
-  //   let queryString = JSON.stringify(queries);
-  //   queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
-  //   let formatQuery = JSON.parse(queryString);
-  //   console.log("formatQuery", formatQuery);
-
-  //   // Filter
-  //   if (queries?.title)
-  //     formatQuery.title = { $regex: queries.title, $options: "i" };
-  //   if (queries?.category)
-  //     formatQuery.category = { $regex: queries.category, $options: "i" };
-  //   if (queries?.color)
-  //     formatQuery.color = { $regex: queries.color, $options: "i" };
-  //   let queryCommand = Product.find(formatQuery);
-  //   if (req.query.sort) {
-  //     const setSortBy = req.query.sort.split(",").join(" ");
-  //     console.log("setSortBy : ", setSortBy);
-  //     queryCommand = queryCommand.sort(setSortBy);
-  //   }
-  //   console.log("formatQuery 2", formatQuery);
-
-  //   // Pagination
-  //   const page = +req.query.page || 2;
-  //   console.log("page check >>>>", page);
-  //   const limit = +req.query.limit || 4;
-  //   const skip = (page - 1) * limit;
-  //   queryCommand.skip(skip).limit(limit);
-  //   queryCommand
-  //     .exec()
-  //     .then(async (rs) => {
-  //       const count = await Product.find(formatQuery).countDocuments();
-  //       res.status(200).json({
-  //         status: 0,
-  //         mess: "Lấy tất cả sản phẩm thành công",
-  //         data: rs,
-  //         count,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       throw new Error(err.message);
-  //     });
-
-  //   // if (allProduct) {
-  //   //   res.status(200).json({
-  //   //     status: 0,
-  //   //     mess: "Lấy tất cả sản phẩm thành công",
-  //   //     data: allProduct,
-  //   //   });
-  //   // }
-  //   //  else {
-  //   //   res.status(401).json({
-  //   //     status: 1,
-  //   //     mess: "Lấy toàn bộ sản phẩm thất bại",
-  //   //   });
-  // }),
   getAllProducts: asyncHandler(async (req, res) => {
     const queries = { ...req.query };
 
@@ -171,7 +110,7 @@ const productController = {
 
     // Phân trang
 
-    const maxLimit = 1000;
+    const maxLimit = 50;
 
     const page = +req.query.page || 1;
     const limit = +req.query.limit || maxLimit;
@@ -180,7 +119,7 @@ const productController = {
 
     try {
       const rs = await queryCommand.exec();
-      const count = await Product.countDocuments(query);
+      const count = await Product.countDocuments();
 
       res.status(200).json({
         status: 0,
@@ -278,6 +217,30 @@ const productController = {
         return res.status(201).json({
           status: 0,
           mess: "Đánh giá thành công",
+        });
+      }
+    }
+  }),
+  addVariantProduct: asyncHandler(async (req, res) => {
+    const { pid } = req.params;
+    console.log("params : ", pid);
+    // console.log("file", req.files);
+    const { color, price, title } = req.body;
+    if (!color || !price || !title) {
+      return res.status(401).json({
+        status: 1,
+        mess: "Thêm biến thể sản phẩm thất bại",
+      });
+    } else {
+      const newVariant = await Product.findByIdAndUpdate(pid, {
+        $push: {
+          variants: { ...req.body, id: Math.random() },
+        },
+      });
+      if (newVariant) {
+        return res.status(201).json({
+          status: 0,
+          mess: "Thêm biến thể sản phẩm thành công",
         });
       }
     }

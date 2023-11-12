@@ -63,6 +63,17 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
+    variants: [
+      {
+        color: String,
+        price: Number,
+        thumb: String,
+        images: Array,
+        title: String,
+        quatity: Number,
+        id: String,
+      },
+    ],
     totalRating: {
       type: Number,
       default: 0,

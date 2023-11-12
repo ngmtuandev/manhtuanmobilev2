@@ -18,6 +18,12 @@ router.put(
   uploadFile.array("image", 10),
   productController.uploadFileProduct
 );
+router.put(
+  "/add-variant/:pid",
+  [verifyToken, verifyAdmin],
+  uploadFile.array("image", 10),
+  productController.addVariantProduct
+);
 router.put("/ratings", [verifyToken], productController.ratingProduct);
 router.get("/:id", productController.getOneProduct);
 router.put("/:id", [verifyToken, verifyAdmin], productController.updateProduct);
