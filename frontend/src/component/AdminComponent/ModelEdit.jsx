@@ -7,6 +7,7 @@ import fetchUpdateProduct from "../../api/fetchApiAdmin/updatedProduct";
 import { useDispatch } from "react-redux";
 import { acionShowModel } from "../../store/modelSlice";
 import swal from "sweetalert";
+import useProduct from "../../hook/hook-product/useProduct";
 
 const ModelEdit = ({ productEdit, setIsEdit, isEdit }) => {
   const dispatch = useDispatch();
@@ -26,19 +27,29 @@ const ModelEdit = ({ productEdit, setIsEdit, isEdit }) => {
     selled: 0,
     title: "",
   });
+  const { updateProduct } = useProduct();
   const handleEditProduct = async () => {
     const data = getValues();
-    const rs = await fetchUpdateProduct(productEdit?._id, { ...data, desc });
-    console.log("rs edit", rs);
-    if (rs.status == 0) {
-      dispatch(acionShowModel({ isShowModel: false }));
-      swal("Cập nhập sản phẩm thành công").then(() => {
-        setIsEdit(!isEdit);
-      });
-    }
+    const finnalData = { ...data, desc };
+    updateProduct.mutate(productEdit?._id, finnalData);
+
+    // const rs = await fetchUpdateProduct(productEdit?._id, { ...data, desc });
+    // console.log("rs edit", rs);
+    // if (rs.status == 0) {
+    //   dispatch(acionShowModel({ isShowModel: false }));
+    //   swal("Cập nhập sản phẩm thành công").then(() => {
+    //     setIsEdit(!isEdit);
+    //   });
+    // }
   };
   return (
     <div className="w-full h-[600px] flex items-center justify-center">
+      <div
+        className="cursor-pointer"
+        onClick={() => dispatch(acionShowModel({ isShowModel: false }))}
+      >
+        Đóng
+      </div>
       <div className="w-[90%] h-[80%]  rounded-md">
         <div className="flex flex-wrap mb-4 gap-4 px-[8px] py-[4px]">
           <div>

@@ -25,6 +25,10 @@ const path = {
   // Path Member
   PUBLIC_MEMBER: "/public-member",
   HOME_MEMBER: "/home-member",
+  MANAGE_USER_MEMBER: "/manage-user",
+  MANAGE_CART_MEMBER: "/manage-cart",
+  MANAGE_BUY_HISTORY_MEMBER: "/manage-history-buy",
+  MANAGE_WHITELIST_MEMBER: "/manage-whitelist",
 };
 
 export default path;

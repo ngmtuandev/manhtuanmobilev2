@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import icons from "../../../untils/icons";
 import { useSelector } from "react-redux";
 import { logout } from "../../../store/userSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import MenuSetting from "./MenuSetting";
 const Header = () => {
   const dispatch = useDispatch();
   const { isLogin } = useSelector((state) => state.user);
+  const [isSetting, setIsSetting] = useState(false);
   const { BsSearch, AiOutlineShoppingCart, BsFillCarFrontFill } = icons;
   const handleLogout = () => {
     dispatch(logout());
     window.location.reload();
   };
+
   return (
     <div className="flex justify-between items-center">
       <div>
@@ -43,18 +46,27 @@ const Header = () => {
           <AiOutlineShoppingCart size={35}></AiOutlineShoppingCart>
         </div>
         {isLogin && (
-          <div className="flex items-center p-[6px] px-[10px] bg-colorCyan mr-3 rounded-xl">
-            <Link
-              onClick={handleLogout}
-              className=" cursor-pointer w-[60px] text-[12px] block ml-2"
-            >
-              Đăng xuất
-            </Link>
+          <div
+            id="setting"
+            onClick={() => setIsSetting(!isSetting)}
+            className="flex relative cursor-pointer items-center p-[6px] px-[10px] bg-colorCyan mr-3 rounded-xl"
+          >
+            Tùy chọn
+            {isSetting && (
+              <MenuSetting setIsSetting={setIsSetting}></MenuSetting>
+            )}
           </div>
         )}
       </div>
     </div>
   );
 };
+
+// <Link
+//   onClick={handleLogout}
+//   className=" cursor-pointer w-[60px] text-[12px] block ml-2"
+// >
+//   Đăng xuất
+// </Link>;
 
 export default Header;

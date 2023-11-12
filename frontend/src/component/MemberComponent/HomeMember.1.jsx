@@ -1,4 +1,7 @@
 import React from "react";
-export const HomeMember = () => {
-  return <div>HomeMember</div>;
+
+const HomeMember = () => {
+  return <div>HomeMember.1</div>;
 };
+
+export default HomeMember;

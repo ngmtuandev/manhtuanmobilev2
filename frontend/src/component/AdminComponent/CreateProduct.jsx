@@ -49,6 +49,11 @@ const CreateProduct = () => {
     }
     if (dataFull && imgPreView.thumb !== "" && imgPreView.img !== "") {
       setIsLoading(true);
+      console.log("data create full >>>", {
+        ...dataFull,
+        ...imgPreView,
+        color,
+      });
       const rs = await fetchCreateProduct({
         ...dataFull,
         ...imgPreView,

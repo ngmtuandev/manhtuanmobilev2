@@ -22,41 +22,38 @@ const DetailProduct = () => {
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
   const [imgCurrent, setImgCurrent] = useState(product?.thumb);
+  const [listImgs, setListImgs] = useState([]);
   const [quality, setQuality] = useState(1);
   const [productCategory, setProductCategory] = useState([]);
   const [submitReiew, setSubmitReview] = useState(false);
-  // const [totalView, setTotalView] = useState(0)
   const { isShowModel } = useSelector((state) => state.model);
-  const { token } = useSelector((state) => state.user);
   const { id, name, category } = useParams();
-  console.log("imgCurrent : ", product?.thumb);
-  console.log("toekn : ", token);
   const { apiCallCount, incrementApiCallCount } = useApiCounter();
-  console.log("submitReiew : ", submitReiew);
   useEffect(() => {
     (async () => {
       const dataProduct = await getApiDetailProduct(id);
       incrementApiCallCount();
       setProduct(dataProduct?.data);
-      setImgCurrent(product?.thumb);
+      setTimeout(() => {
+        setImgCurrent(product?.thumb);
+        setListImgs(product?.img);
+      }, 1000);
     })();
   }, [id, submitReiew]);
 
   const settings = {
     prevArrow: false,
     nextArrow: false,
-    slidesToShow: 3,
+    slidesToShow: 1,
     dots: false,
     infinite: true,
     speed: 500,
     slidesToScroll: 1,
   };
-  console.log("product current >>>>", product);
+  console.log("list img product current >>>>", listImgs);
 
   const handleQuality = useCallback(
     (isHandle) => {
-      // console.log(isHandle);
-      // return;
       if (isHandle.toString() === "up") {
         setQuality((quality) => quality + 1);
       }
@@ -83,7 +80,6 @@ const DetailProduct = () => {
 
   const handleCloseModel = () => {
     dispatch(acionShowModel({ isShowModel: false }));
-    console.log("isShowModel after : ", isShowModel);
   };
 
   return (
@@ -110,21 +106,32 @@ const DetailProduct = () => {
                 },
               }}
             />
-            {/* <img src={imgCurrent}></img> */}
           </div>
           <div className=" mt-4 ">
             <SliderSlick {...settings}>
-              {product?.img?.map((el) => {
-                return (
-                  <div
-                    onClick={() => setImgCurrent(el)}
-                    className=" w-[150px] flex justify-center items-center 
+              {listImgs
+                ? listImgs?.map((el) => {
+                    return (
+                      <div
+                        onClick={() => setImgCurrent(el)}
+                        className=" w-[150px] flex justify-center items-center 
                 h-[150px] overflow-hidden"
-                  >
-                    <img className="object-cover mx-4" src={el}></img>
-                  </div>
-                );
-              })}
+                      >
+                        <img className="object-cover mx-4" src={el}></img>
+                      </div>
+                    );
+                  })
+                : product?.img?.map((el) => {
+                    return (
+                      <div
+                        onClick={() => setImgCurrent(el)}
+                        className=" w-[150px] flex justify-center items-center 
+                h-[150px] overflow-hidden"
+                      >
+                        <img className="object-cover mx-4" src={el}></img>
+                      </div>
+                    );
+                  })}
             </SliderSlick>
           </div>
         </div>
@@ -164,10 +171,31 @@ const DetailProduct = () => {
               handleQuality={handleQuality}
             ></QualityProduct>
           </div>
+          <div>
+            {product?.variants?.length > 0 && (
+              <div className="flex ml-4 flex-wrap items-center gap-4">
+                {product?.variants?.map((el) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        setImgCurrent(el?.thumb);
+                        setListImgs(el?.images);
+                      }}
+                      className="cursor-pointer hover:bg-opacity-70 w-[200px] h-[100px] flex justify-center items-center bg-gray-300 rounded-md"
+                      key={el?.id}
+                    >
+                      <img className="w-[50px]" src={el?.thumb}></img>
+                      <span className="text-black font-bold">{el?.title}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
         <div className="w-[23%] h-screen bg-slate-600">info shop</div>
       </div>
-      <div className="mt-20">
+      <div className="mt-32">
         <TabDetailProduct
           submitReiew={submitReiew}
           setSubmitReview={setSubmitReview}
@@ -180,7 +208,7 @@ const DetailProduct = () => {
             return (
               <div
                 key={el?._id}
-                className=" w-[100px] flex justify-center items-center 
+                className="cursor-pointer w-[100px] flex justify-center items-center 
                 h-[350px] overflow-hidden"
               >
                 <img className="w-[80%]" src={el?.img[0]}></img>

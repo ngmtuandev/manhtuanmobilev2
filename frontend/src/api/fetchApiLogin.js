@@ -4,7 +4,7 @@ const fetchApiLogin = (data) =>
   axios({
     url: "/user/login",
     method: "post",
-    data
+    data,
   });
 
 export default fetchApiLogin;

@@ -24,6 +24,7 @@ const Home = () => {
       });
     }
   });
+
   return (
     <div>
       <div className="mt-4 min-w-full flex justify-center items-center h-screen">

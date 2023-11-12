@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import SliderSlick from "react-slick";
-// import "../styleCss/slicer.css";
+import useProduct from "../../hook/hook-product/useProduct";
 import { Spinner } from "@material-tailwind/react";
 import getApiProduct from "../../api/getApiProduct";
 const Slider = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imgSliders, setImgSliders] = useState([]);
-  // let urlApiProduct = "http://localhost:5000/api/product/all-product";
 
-  const getProduct = async () => {
-    setIsLoading(true);
-    const rs = await getApiProduct({ limit: 5 });
+  const { isLoadingProduct, products } = useProduct();
 
-    console.log("rs >>>", rs);
-    // console.log('data >>>', imgs)
-    setImgSliders(rs?.data);
-    setIsLoading(false);
-  };
+  console.log("products react query >>>>>", products);
+
+  // const getProduct = async () => {
+  //   setIsLoading(true);
+  //   const rs = await getApiProduct({ limit: 5 });
+
+  //   setImgSliders(rs?.data);
+  //   setIsLoading(false);
+  // };
 
   useEffect(() => {
-    getProduct();
+    setImgSliders(products);
   }, []);
 
   const settings = {
@@ -34,7 +35,7 @@ const Slider = () => {
 
   return (
     <div className="w-[96%] -mt-44 relative p-[10px] rounded-md ">
-      {!isLoading ? (
+      {!isLoadingProduct ? (
         <SliderSlick {...settings}>
           {imgSliders?.map((el, index) => {
             return (

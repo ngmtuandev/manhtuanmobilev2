@@ -7,31 +7,35 @@ import ModelEdit from "./ModelEdit";
 import swal from "sweetalert";
 import fetchDeleteProduct from "../../api/fetchApiAdmin/deleteProduct";
 import { Spinner } from "@material-tailwind/react";
-
+import useProduct from "../../hook/hook-product/useProduct";
+import ModelAddVarient from "./ModelAddVarient";
 const ManageProducts = () => {
   const [allProducts, setAllProducts] = useState([]);
-  const [productEdit, setProductEdit] = useState("");
+  const [productEdit, setProductEdit] = useState(null);
+  const [addVariant, setAddVariant] = useState(null);
+  const [isShowModelAdd, setIsShowModelAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { isShowModel } = useSelector((state) => state.model);
 
-  //   console.log("isShowModel", isShowModel);
-  const fetchProducts = async () => {
-    setIsLoading(true);
-    const rs = await getApiProduct();
-    setIsLoading(false);
-    if (rs) {
-      setAllProducts(rs?.data);
-    }
-  };
-  useEffect(() => {
-    fetchProducts();
-  }, [isEdit, isShowModel]);
-  const handleDeleteProduct = async (id) => {
+  const { deleteProduct, products } = useProduct();
+
+  // const fetchProducts = async () => {
+  //   setIsLoading(true);
+  //   const rs = await getApiProduct();
+  //   setIsLoading(false);
+  //   if (rs) {
+  //     setAllProducts(rs?.data);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, [isEdit, isShowModel]);
+  const handleDeleteProduct = (id) => {
     swal("Bạn muốn xóa sản phẩm này ?").then(async () => {
-      await fetchDeleteProduct(id);
-      setIsEdit(!isEdit);
+      deleteProduct.mutate(id);
+      // setIsEdit(!isEdit);
     });
   };
   return (
@@ -42,7 +46,13 @@ const ManageProducts = () => {
         </div>
       ) : (
         <div className="relative">
-          <div className="fixed z-50 shadow-xl w-full h-[40px] bg-white">
+          {isShowModelAdd && (
+            <ModelAddVarient
+              addVariant={addVariant}
+              setIsShowModelAdd={setIsShowModelAdd}
+            ></ModelAddVarient>
+          )}
+          <div className="fixed z-50 mb-16 shadow-xl w-full h-[40px] bg-white">
             <span>Quản lý sản phẩm</span>
           </div>
           {isShowModel && (
@@ -53,7 +63,8 @@ const ManageProducts = () => {
             ></ModelEdit>
           )}
 
-          <div className="absolute mt-4 w-full px-[40px]">
+          <div className=" mt-4 w-full px-[40px]">
+            {/* <div className="absolute h-[800px] w-[100%] bg-red-800"></div> */}
             <div class="flex flex-col w-full">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -93,9 +104,9 @@ const ManageProducts = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="mt-4">
-                        {allProducts?.length > 0 &&
-                          allProducts?.map((el, index) => {
+                      <tbody className="mt-20">
+                        {products?.length > 0 &&
+                          products?.map((el, index) => {
                             return (
                               <tr
                                 key={el?._id}
@@ -151,6 +162,16 @@ const ManageProducts = () => {
                                       }}
                                     >
                                       Chỉnh sửa
+                                    </button>
+                                  </div>
+                                  <div className="w-[70px] my-2 h-[30px] bg-green-500 rounded-md flex justify-center items-center text-gray-50">
+                                    <button
+                                      onClick={() => {
+                                        setAddVariant(el);
+                                        setIsShowModelAdd(true);
+                                      }}
+                                    >
+                                      Biến thể
                                     </button>
                                   </div>
                                 </td>

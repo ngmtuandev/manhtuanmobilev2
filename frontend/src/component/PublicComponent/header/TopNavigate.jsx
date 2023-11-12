@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import dataTopHeader from "../../../untils/dataTopHeader";
 import { useSelector } from "react-redux";
 const TopNavigate = () => {
+  const [info, setInfo] = useState("");
   const { dataUser, isLoading, isLogin } = useSelector((state) => state.user);
-  // console.log('{dataUser, isLoading} >>>>', dataUser, '>>>>>', isLoading, 'is Login >>>', isLogin)
+  setTimeout(() => {
+    setInfo(dataUser);
+  }, 2000);
   return (
     <div className="flex flex-row justify-end gap-10 py-[10px] max-h-full">
       {dataTopHeader.map((item) => {
@@ -16,7 +19,7 @@ const TopNavigate = () => {
           duration-0 hover:duration-1000"
           >
             {isLogin && item.id === 6
-              ? `Xin chào ${dataUser?.firstName} ${dataUser?.lastName}`
+              ? `Xin chào ${info?.firstName} ${info?.lastName}`
               : item.value}
           </NavLink>
         );
