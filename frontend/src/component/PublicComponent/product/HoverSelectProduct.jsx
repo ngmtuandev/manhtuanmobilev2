@@ -5,13 +5,13 @@ const HoverSelectProduct = () => {
   return (
     <div className="absolute flex gap-5">
       <div>
-        <AiFillHeart size={25}></AiFillHeart>
+        <AiFillHeart color="Red" size={25}></AiFillHeart>
       </div>
       <div>
-        <FaBars size={25}></FaBars>
+        <FaBars color="Red" size={25}></FaBars>
       </div>
       <div>
-        <AiOutlineShoppingCart size={25}></AiOutlineShoppingCart>
+        <AiOutlineShoppingCart color="Red" size={25}></AiOutlineShoppingCart>
       </div>
     </div>
   );

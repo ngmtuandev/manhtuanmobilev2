@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
-const TitleTop = ({text}) => {
+const TitleTop = ({ text }) => {
   return (
     <div>
-        <h3>{text}</h3>
+      <h3 className="font-serif">{text}</h3>
     </div>
-  )
-}
+  );
+};
 
-export default TitleTop
+export default TitleTop;

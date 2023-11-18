@@ -43,9 +43,18 @@ const userChema = new mongoose.Schema(
         },
         quanlity: {
           type: Number,
-          default: 0,
+          default: 1,
         },
         color: {
+          type: String,
+        },
+        title: {
+          type: String,
+        },
+        price: {
+          type: Number,
+        },
+        thumb: {
           type: String,
         },
       },

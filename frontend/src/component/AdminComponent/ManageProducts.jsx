@@ -20,7 +20,7 @@ const ManageProducts = () => {
   const { isShowModel } = useSelector((state) => state.model);
 
   const { deleteProduct, products } = useProduct();
-
+  console.log("products", products);
   // const fetchProducts = async () => {
   //   setIsLoading(true);
   //   const rs = await getApiProduct();

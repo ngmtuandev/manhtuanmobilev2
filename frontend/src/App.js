@@ -33,6 +33,7 @@ import {
   ManageHistoryCart,
   ManageUserMember,
   ManageWhiteList,
+  Checkout,
 } from "./component/MemberComponent/index";
 import ManageProducts from "./component/AdminComponent/ManageProducts";
 function App() {
@@ -41,14 +42,16 @@ function App() {
     dispatch(actionFetchCategory());
   }, []);
   useEffect(() => {
-    dispatch(actionTypeAsyncLogin());
+    setTimeout(() => {
+      dispatch(actionTypeAsyncLogin());
+    }, 1000);
   }, []);
 
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-bgDarkLight">
+      <div className="min-h-screen bg-white">
         <Routes>
           <Route path={path.PUBLIC} element={<Public></Public>}>
             <Route path={path.HOME} element={<Home></Home>}></Route>
@@ -101,6 +104,7 @@ function App() {
             ></Route>
           </Route>
           <Route path={path.LOGIN} element={<Login></Login>}></Route>
+          <Route path={path.PAYMENT} element={<Checkout></Checkout>}></Route>
           <Route path={path.REGISTER} element={<Register></Register>}></Route>
         </Routes>
       </div>

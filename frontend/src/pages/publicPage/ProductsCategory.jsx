@@ -7,6 +7,7 @@ import ProductCard from "../../component/PublicComponent/product/ProductCard";
 import SortItem from "../../component/PublicComponent/product/SortItem";
 import { useSearchParams } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
+import icons from "../../untils/icons";
 
 const ProductsCategory = () => {
   const { category } = useParams();
@@ -21,6 +22,8 @@ const ProductsCategory = () => {
     700: 2,
     500: 1,
   };
+
+  const { CiFilter } = icons;
 
   useEffect(() => {
     let params = [];
@@ -69,13 +72,20 @@ const ProductsCategory = () => {
       <div className="px-main mt-5">
         <div>
           <div>
-            <span className="uppercase font-bold text-[20px]">{category}</span>
+            <span className="uppercase font-serif text-colorCyanMain font-bold text-[20px]">
+              {category}
+            </span>
             <BreadCumbs category={category}></BreadCumbs>
           </div>
         </div>
-        <div className="flex mt-5">
-          <div className="w-4/5 h-[400px] ">
-            <div>Filter by : </div>
+        <div className="flex mt-2">
+          <div className="w-4/5">
+            <div className="text-gray-800 flex items-center font-serif">
+              <span>Bộ lọc tìm kiếm </span>
+              <div>
+                <CiFilter size={22} color="gray"></CiFilter>
+              </div>
+            </div>
             <div className="flex">
               <SortItem
                 onSetSort={handleSetActiveSort}
@@ -92,23 +102,20 @@ const ProductsCategory = () => {
             </div>
           </div>
           <div className="w-1/5 h-[400px] ">
-            <div>Sort by : </div>
+            <div className="text-gray-900 font-serif">Sort by : </div>
           </div>
         </div>
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="my-masonry-grid -mt-72"
-          columnClassName="my-masonry-grid_column"
-        >
+
+        <div className="grid-cols-4 grid -mt-[25%] gap-5">
           {dataProductsCategory &&
             dataProductsCategory?.map((item, index) => {
               return (
-                <div key={index} className="w-[200px]">
-                  <ProductCard product={item}></ProductCard>
+                <div key={index} className="">
+                  <ProductCard style={"h-[450px]"} product={item}></ProductCard>
                 </div>
               );
             })}
-        </Masonry>
+        </div>
       </div>
       {/* )} */}
     </Fragment>

@@ -18,8 +18,12 @@ const InputForm = ({
     }
   }, [defaultValue, id, register, validate]);
   return (
-    <div className="flex flex-col relative">
-      {label && <label htmlFor={id}>{label}</label>}
+    <div className="flex mb-2 flex-col relative">
+      {label && (
+        <label className="text-colorCyanMain" htmlFor={id}>
+          {label} :
+        </label>
+      )}
       <input
         className={style ? style : "max-w-[150px] h-[30px]"}
         type={type}

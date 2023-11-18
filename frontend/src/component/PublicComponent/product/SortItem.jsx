@@ -3,7 +3,7 @@ import { memo } from "react";
 import { createSearchParams, useNavigate, useParams } from "react-router-dom";
 import { formatPrice } from "../../../untils/fnSuppport";
 
-const COLORS = ["red", "yellow", "white", "black", "brown", "purple"];
+const COLORS = ["Đỏ", "Vàng", "Đen", "Tím", "Nâu", "Trắng"];
 
 const SortItem = ({ text, activeSort, onSetSort, type }) => {
   const [totalSelectedColor, setTotalSelectedColor] = useState([]);
@@ -55,17 +55,17 @@ const SortItem = ({ text, activeSort, onSetSort, type }) => {
         onSetSort(text);
       }}
     >
-      <div className="w-[100px] cursor-pointer h-[30px] border-gray-200 border-[2px] mr-2 flex justify-center items-center">
+      <div className="w-[100px] cursor-pointer text-gray-50 rounded-sm my-2 font-serif bg-colorCyanMain h-[30px] mr-2 flex justify-center items-center">
         <span>{text}</span>
       </div>
       {activeSort === text && (
-        <div className="absolute z-10 mt-1 shadow-xl w-[300px] h-[200px] bg-white text-black">
+        <div className="absolute w-[160px] bg-opacity-80 font-serif p-[8px] z-10 mt-1 gap-4 text-black">
           {type === "checkbox" && (
-            <div>
+            <div className="w-[170px] shadow-sm p-[16px] bg-gray-300 rounded-sm">
               <div className="flex">
                 <span>{totalSelectedColor?.length}</span>
                 <span
-                  className="cursor-pointer"
+                  className="cursor-pointer ml-2"
                   onClick={(e) => {
                     e.stopPropagation();
                     setTotalSelectedColor([]);
@@ -96,10 +96,13 @@ const SortItem = ({ text, activeSort, onSetSort, type }) => {
             </div>
           )}
           {type === "text" && (
-            <div onClick={(e) => e.stopPropagation()}>
-              <div>
-                <label></label>
+            <div
+              className="flex gap-3 w-[500px] bg-gray-300 items-center rounded-sm py-[12px] px-[8px]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="mb-1 w-[300px] shadow-lg rounded-lg">
                 <input
+                  className="w-[100%] font-serif text-gray-700 border-none rounded-sm"
                   onChange={(e) =>
                     setRangePrice({ ...rangePrice, from: e.target.value })
                   }
@@ -109,8 +112,13 @@ const SortItem = ({ text, activeSort, onSetSort, type }) => {
                 ></input>
               </div>
               <div>
-                <label></label>
+                <span className="font-serif text-gray-700 font-medium">
+                  Đến
+                </span>
+              </div>
+              <div className="mb-1 w-[300px] shadow-lg rounded-lg">
                 <input
+                  className="w-[100%] font-serif text-gray-700 border-none rounded-sm"
                   value={rangePrice.to}
                   onChange={(e) =>
                     setRangePrice({ ...rangePrice, to: e.target.value })

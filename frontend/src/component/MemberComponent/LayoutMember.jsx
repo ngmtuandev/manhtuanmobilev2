@@ -5,11 +5,11 @@ import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 const LayoutMember = () => {
   return (
-    <div className="w-full flex bg-white">
-      <div className="w-[25%] h-screen bg-gray-400">
+    <div className="w-full flex justify-between bg-white text-gray-50 font-serif">
+      <div className="w-[25%] h-screen bg-colorCyanMain">
         <TabMember></TabMember>
       </div>
-      <div className="w-[75%] h-full ">
+      <div className="w-[75%] h-full justify-end">
         <Outlet></Outlet>
       </div>
     </div>

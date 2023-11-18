@@ -28,18 +28,15 @@ const JudgeProduct = ({ product, submitReiew, setSubmitReview }) => {
   };
 
   return (
-    <div>
+    <div className="text-gray-900 w-[100%] flex-col justify-center items-center h-auto shadow-lg border-[1px] mt-8 rounded-xl px-[8px] font-serif">
       <div>
         <TotalVote submitReiew={submitReiew} product={product}></TotalVote>
       </div>
-      <div>
+      <div className="w-full h-full justify-center flex">
         <div>
-          <span className="text-gray-100 font-semibold my-3">
-            Bạn đánh giá sao về sản phẩm này ?
-          </span>
-        </div>
-        <div className="my-4">
-          <Button onSubmit={handleReview} text={"Đánh giá sản phẩm"}></Button>
+          <div className="my-4 w-[300px] text-center justify-center">
+            <Button onSubmit={handleReview} text={"Đánh giá sản phẩm"}></Button>
+          </div>
         </div>
       </div>
       <div>

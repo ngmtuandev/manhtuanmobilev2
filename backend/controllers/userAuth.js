@@ -72,7 +72,6 @@ const userController = {
       const lastName = cookieData?.dataRegister?.lastName;
       const email = cookieData?.dataRegister?.email;
       const phone = cookieData?.dataRegister?.phone;
-      // console.log("check data cookie >>>>", password);
       let salt = await bcrypt.genSaltSync(5);
       const hasdPassword = await bcrypt.hashSync(password, salt);
       const newUser = await User.create({
@@ -87,14 +86,6 @@ const userController = {
         console.log("check register successs");
         return res.redirect(`${process.env.URL_CLIENT}/login`);
       }
-      // return res.status(200).json({
-      //   success: newUser ? true : false,
-      //   status: 0,
-      //   mess: newUser
-      //     ? "Tạo tài khoản thành công"
-      //     : "Tạo tài khoản thất bại",
-      //   data: newUser,
-      // });
     }
   }),
   login: asyncHandler(async (req, res) => {
@@ -264,7 +255,7 @@ const userController = {
   cartUser: asyncHandler(async (req, res) => {
     const { id } = req.auth;
     const { pid } = req.params;
-    const { quanlity, color } = req.body;
+    const { quanlity = 1, color, price, thumb, title } = req.body;
     if (!quanlity || !color || !pid) {
       return res.status(400).json({
         status: 1,
@@ -272,39 +263,23 @@ const userController = {
       });
     } else {
       const cartUserCurr = await User.findById(id).select("cart");
-      // console.log("cart user curent >>>>", cartUserCurr.cart);
       const alreadyProduct = await cartUserCurr?.cart.find(
         (item) => item?.product?.toString() === pid?.toString()
-        // console.log(
-        //   "item.product.toString() === pid.toString() >>>> ",
-        //   item.product.toString(),
-        //   pid,
-        //   item.product.toString() === pid.toString()
-        // )
       );
-      // console.log("alreadyProduct >>>", alreadyProduct);
       if (alreadyProduct) {
-        // console.log("alreadyProduct >>>>>>>", alreadyProduct);
-        // console.log(
-        //   " +alreadyProduct?.quanlity + +quanlity >>>>",
-        //   +alreadyProduct?.quanlity
-        // );
         if (alreadyProduct?.color?.toString() === color?.toString()) {
-          // console.log(
-          //   "alreadyProduct?.color.toString() === color.toString()",
-          //   alreadyProduct?.color.toString() === color.toString()
-          // );
-          // console.log(
-          //   "Quanlity : >>>>>",
-          //   +alreadyProduct?.quanlity + +quanlity
-          // );
-          const addCart = await User.findByIdAndUpdate(
-            id,
+          const addCart = await User.updateOne(
             {
-              cart: {
-                quanlity: +alreadyProduct?.quanlity + +quanlity,
-                color,
-                product: pid,
+              cart: { $elemMatch: alreadyProduct },
+            },
+            {
+              $set: {
+                "cart.$.quanlity": +alreadyProduct?.quanlity + +quanlity,
+                "cart.$.color": color,
+                "cart.$.product": pid,
+                "cart.$.price": price * (+alreadyProduct?.quanlity + +quanlity),
+                "cart.$.thumb": thumb,
+                "cart.$.title": title,
               },
             },
             { new: true }
@@ -320,7 +295,9 @@ const userController = {
           const addCart = await User.findByIdAndUpdate(
             id,
             {
-              $push: { cart: { product: pid, color, quanlity } },
+              $push: {
+                cart: { product: pid, color, quanlity, price, thumb, title },
+              },
             },
             { new: true }
           );
@@ -336,7 +313,7 @@ const userController = {
         const addCart = await User.findByIdAndUpdate(
           id,
           {
-            $push: { cart: { product: pid, color, quanlity } },
+            $push: { cart: { product: pid, color, quanlity, thumb, title } },
           },
           { new: true }
         );
@@ -347,6 +324,29 @@ const userController = {
             data: addCart,
           });
         }
+      }
+    }
+  }),
+  deleteCart: asyncHandler(async (req, res) => {
+    const { id } = req.auth;
+    const { pid, color } = req.body;
+    const user = await User.findById(id).select("cart");
+    const alreadyProduct = await user?.cart?.find(
+      (el) => el.product.toString() === pid && el.color.toString() === color
+    );
+    if (alreadyProduct) {
+      const rs = await User.findByIdAndUpdate(
+        id,
+        {
+          $pull: { cart: { product: pid, color } },
+        },
+        { new: true }
+      );
+      if (rs) {
+        return res.status(200).json({
+          status: 0,
+          mess: "Xóa sản phẩm khỏi giỏ hàng thành công",
+        });
       }
     }
   }),

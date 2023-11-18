@@ -12,6 +12,7 @@ router.get("/completed/:token", userController.completedRegister);
 router.put("/address", verifyToken, userController.updateAddress);
 router.post("/refreshAccessToken", userController.refreshAccessTokenUser);
 router.get("/users", [verifyToken, verifyAdmin], userController.getAllUsers);
+router.delete("/cart", [verifyToken], userController.deleteCart);
 router.put("/cart/:pid", [verifyToken], userController.cartUser);
 router.delete("/:id", [verifyToken, verifyAdmin], userController.deleteUser);
 router.put(

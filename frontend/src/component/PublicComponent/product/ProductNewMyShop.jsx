@@ -46,7 +46,7 @@ const ProductNewMyShop = () => {
         <div className="grid-cols-5 grid gap-4 mt-4">
           {dataProductInPage?.map((el) => {
             return (
-              <div key={el?._id}>
+              <div key={el?._id} className="w-[100%] h-[100%]">
                 <ProductCard product={el}></ProductCard>
               </div>
             );

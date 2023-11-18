@@ -3,6 +3,7 @@ import icons from "../../../untils/icons";
 import Button from "../Button";
 import fetchApiRatingProduct from "../../../api/fetchAPIReviewProduct";
 import { useSelector } from "react-redux";
+import review from "../../../asset/review.svg";
 const OPTION_VOTE = [
   {
     id: 1,
@@ -59,8 +60,11 @@ const HandleVote = ({ pid, setSubmitReview, submitReiew }) => {
     <div
       ref={refModel}
       onClick={(e) => e.stopPropagation()}
-      className="w-[600px] h-[400px] bg-gray-100 px-[16px]"
+      className="w-[600px] rounded-md font-serif h-[400px] p-[12px] flex flex-col justify-center items-center gap-10 bg-gray-100"
     >
+      <div>
+        <img src={review} className="w-[120px]"></img>
+      </div>
       <div className="flex gap-8">
         {OPTION_VOTE.map((el) => {
           return (
@@ -73,22 +77,22 @@ const HandleVote = ({ pid, setSubmitReview, submitReiew }) => {
               ) : (
                 <AiFillStar size={24} color="gray"></AiFillStar>
               )}
-              <span className="text-gray-800 font-bold">{el.option}</span>
+              <span className="text-gray-800">{el.option}</span>
             </div>
           );
         })}
       </div>
-      <div>
+      <div className="w-full flex-col justify-center items-center">
         <textarea
           onChange={(e) =>
             setDataReview({ ...dataReview, review: e.target.value })
           }
-          className="form-textarea text-gray-800 w-full"
+          className="form-textarea text-gray-800 w-[100%]"
           placeholder="Xin mời bạn chia sẻ cảm nhận về sản phẩm"
         ></textarea>
-      </div>
-      <div>
-        <Button onSubmit={handleSubmitReview} text={"Gửi đánh giá"}></Button>
+        <div className="w-[50%] text-center justify-center">
+          <Button onSubmit={handleSubmitReview} text={"Gửi đánh giá"}></Button>
+        </div>
       </div>
     </div>
   );

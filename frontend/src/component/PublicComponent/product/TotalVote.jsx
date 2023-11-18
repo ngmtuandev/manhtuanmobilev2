@@ -12,8 +12,9 @@ const TotalVote = ({ product }) => {
   return (
     <div className="flex h-[160px]">
       <div className="w-3/6 flex justify-center flex-col items-center">
-        <span className="text-gray-100">
-          Tổng {product?.ratings?.length} lượt đánh giá
+        <span className="w-[300px] text-[18px] mb-3 text-colorCyanMain font-semibold flex-wrap">
+          Tổng {product?.ratings?.length} lượt đánh giá cho sản phẩm{" "}
+          {product?.title}
         </span>
         <div className="flex">{renderStarProduct(4)}</div>
       </div>
@@ -21,7 +22,7 @@ const TotalVote = ({ product }) => {
         <div className="w-1/6 flex-col items-center justify-center mt-4">
           {Array.from(Array(5).keys()).map((el) => (
             <div key={el} className="flex items-center ml-4">
-              <span className="text-gray-100 mr-2">{el + 1}</span>
+              <span className="mr-2">{el + 1}</span>
               <AiFillStar size={20} color="yellow"></AiFillStar>
             </div>
           ))}
@@ -42,7 +43,7 @@ const TotalVote = ({ product }) => {
         </div>
         <div className="w-1/6 mt-3 flex-col">
           {Array.from(Array(5).keys()).map((el) => (
-            <p className="mt-[2px] text-white">
+            <p className="mt-[2px] ">
               {fnSupportCountRating(el + 1)} lượt đánh giá
             </p>
           ))}

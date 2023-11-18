@@ -6,7 +6,9 @@ const QualityProduct = ({ quality, handleQuality }) => {
       <div
         className="text-[35px] mr-3 cursor-pointer"
         onClick={() => handleQuality("down")}
-      ></div>
+      >
+        -
+      </div>
       <div>
         <input
           className="w-[40px] text-black flex justify-center outline-none items-center"

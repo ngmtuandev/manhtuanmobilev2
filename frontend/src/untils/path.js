@@ -29,6 +29,8 @@ const path = {
   MANAGE_CART_MEMBER: "/manage-cart",
   MANAGE_BUY_HISTORY_MEMBER: "/manage-history-buy",
   MANAGE_WHITELIST_MEMBER: "/manage-whitelist",
+
+  PAYMENT: "/payment",
 };
 
 export default path;

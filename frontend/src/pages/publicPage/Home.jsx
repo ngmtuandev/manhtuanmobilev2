@@ -27,7 +27,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="mt-4 min-w-full flex justify-center items-center h-screen">
+      <div className="mt-4 flex mr-2 justify-center items-center h-screen">
         <Slider></Slider>
       </div>
       {/* <div className="-mt-36 overflow-hidden w-screen px-[10px]">

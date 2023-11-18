@@ -26,6 +26,7 @@ const CreateProduct = () => {
   } = useForm({
     title: "",
     brand: "",
+    introProducts: "",
     price: 0,
     quantity: 0,
     selled: 0,
@@ -229,6 +230,19 @@ const CreateProduct = () => {
               })}
             </select>
           </div>
+        </div>
+        <div className="mt-5">
+          <InputForm
+            register={register}
+            errors={errors}
+            // defaultValue={editUser?.email}
+            id={"introProducts"}
+            placeholder={"Giới thiệu sản phẩm"}
+            style={"w-[600px] h-[80px]"}
+            validate={{
+              required: "Trường này không được bỏ trống",
+            }}
+          ></InputForm>
         </div>
         <div className="mt-4">
           <MceTinyText

@@ -1,27 +1,49 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import icons from "../../untils/icons";
+
+const {
+  MdOutlineHeadphones,
+  FiWatch,
+  FaComputer,
+  IoPhonePortraitOutline,
+  AiOutlineApple,
+  IoHomeOutline,
+  MdComputer,
+  MdAutoFixOff,
+  LuMonitorSmartphone,
+  RiComputerLine,
+} = icons;
+
+const iconsCategory = [
+  <MdOutlineHeadphones size={20}></MdOutlineHeadphones>,
+  <FiWatch size={20}></FiWatch>,
+  <FaComputer size={20}></FaComputer>,
+  <IoPhonePortraitOutline size={20}></IoPhonePortraitOutline>,
+  <RiComputerLine size={20}></RiComputerLine>,
+  <MdComputer size={20}></MdComputer>,
+  <LuMonitorSmartphone size={20}></LuMonitorSmartphone>,
+  <MdAutoFixOff size={20}></MdAutoFixOff>,
+  <AiOutlineApple size={20}></AiOutlineApple>,
+  <IoHomeOutline size={20}></IoHomeOutline>,
+];
 const Navigator = () => {
-  // const [category, setCategory] = useState([]);
-  // const fetchApiDataCategory = async () => {
-  //   const dataCategory = await getApiCategory();
-  //   setCategory(dataCategory?.data);
-  // };
-  // useEffect(() => {
-  //   fetchApiDataCategory();
-  // }, []);
-
   const { categories, isLoading } = useSelector((state) => state.app);
-  // console.log("categories from redux tookit : ", categories);
-
   return (
-    <div className="px-[12px] flex gap-14 justify-center">
-      {categories?.map((item) => {
+    <div className="px-[12px] h-[50px] items-center flex gap-14 justify-center">
+      {categories?.map((item, index) => {
         return (
           <div
             key={item._id}
-            className="cursor-pointer hover:text-colorCyanDark"
+            className="flex-col justify-center text-center content-center items-center cursor-pointer font-serif "
           >
-            <Link to={`/products/${item?.title}`}>{item?.title}</Link>
+            <div className="justify-center hover:text-colorCyanMain flex">
+              {" "}
+              {iconsCategory[index]}
+            </div>
+            <div className="hover:text-colorCyanMain">
+              <Link to={`/products/${item?.title}`}>{item?.title}</Link>
+            </div>
           </div>
         );
       })}
