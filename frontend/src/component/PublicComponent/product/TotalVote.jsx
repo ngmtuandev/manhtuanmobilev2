@@ -1,6 +1,8 @@
 import React, { memo, useEffect } from "react";
 import { renderStarProduct } from "../../../untils/fnSuppport";
 import icons from "../../../untils/icons";
+import { Progress } from "@material-tailwind/react";
+
 const TotalVote = ({ product }) => {
   console.log("rating total vote  : ", product);
   const { AiFillStar } = icons;
@@ -31,13 +33,19 @@ const TotalVote = ({ product }) => {
           {Array.from(Array(5).keys()).map((el) => (
             <div
               key={el}
-              className="relative w-[100%] mt-4 bg-gray-600 rounded-3xl h-[10px]"
+              className="relative w-[100%] mt-4  rounded-3xl h-[10px]"
             >
-              <div
+              <Progress
+                color="red"
+                value={fnSupportCountRating(el + 1)}
+                size="sm"
+                label="small"
+              />
+              {/* <div
                 className={`absolute inset-0 w-[${fnSupportCountRating(
                   el + 1
                 )}0%] rounded-3xl h-[10px] bg-red-500`}
-              ></div>
+              ></div> */}
             </div>
           ))}
         </div>

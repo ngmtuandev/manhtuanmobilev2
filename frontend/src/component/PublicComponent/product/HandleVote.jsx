@@ -35,6 +35,7 @@ const HandleVote = ({ pid, setSubmitReview, submitReiew }) => {
   });
   const refModel = useRef();
   const { token } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
   const { AiFillStar } = icons;
   useEffect(() => {
     refModel.current.scrollIntoView({ block: "center", behavior: "smooth" });
@@ -42,6 +43,7 @@ const HandleVote = ({ pid, setSubmitReview, submitReiew }) => {
 
   const handleSubmitReview = async () => {
     try {
+      setLoading(true);
       const rs = await fetchApiRatingProduct(
         { star: dataReview.rating, comment: dataReview.review, pid: pid },
         token
@@ -49,7 +51,9 @@ const HandleVote = ({ pid, setSubmitReview, submitReiew }) => {
       console.log("data post comment : ", rs);
       if (+rs?.status === 0) {
         setSubmitReview(!submitReiew);
-        console.log(submitReiew);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       }
     } catch (error) {
       console.log(error);
@@ -91,7 +95,10 @@ const HandleVote = ({ pid, setSubmitReview, submitReiew }) => {
           placeholder="Xin mời bạn chia sẻ cảm nhận về sản phẩm"
         ></textarea>
         <div className="w-[50%] text-center justify-center">
-          <Button onSubmit={handleSubmitReview} text={"Gửi đánh giá"}></Button>
+          <Button
+            onSubmit={handleSubmitReview}
+            text={loading ? "..." : "Gửi đánh giá"}
+          ></Button>
         </div>
       </div>
     </div>

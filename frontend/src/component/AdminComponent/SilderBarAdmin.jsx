@@ -6,32 +6,32 @@ const dataSideBar = [
   {
     id: 1,
     type: "single",
-    text: "Dashboard",
+    text: "Thống kê",
     path: `${path.PUBLIC_ADMIN}${path.DASBOARD_ADMIN}`,
   },
   {
     id: 2,
     type: "single",
-    text: "Manage user",
+    text: "Quản lý người dùng",
     path: `${path.PUBLIC_ADMIN}${path.MANAGE_USER_ADMIN}`,
   },
   {
     id: 3,
     type: "single",
-    text: "Manage order",
+    text: "Quán lý đơn hàng",
     path: `${path.PUBLIC_ADMIN}${path.MANAGE_ORDER}`,
   },
   {
     id: 4,
     type: "parent",
-    text: "Manage Product",
+    text: "Hàng hóa",
     submenu: [
       {
-        text: "Create Product",
+        text: "Tạo sản phẩm",
         path: `${path.PUBLIC_ADMIN}${path.CREATE_PRODUCT_ADMIN}`,
       },
       {
-        text: "Manage Product",
+        text: "Quản lý sản phẩm",
         path: `${path.PUBLIC_ADMIN}${path.MANAGE_PRODUCT_ADMIN}`,
       },
     ],
@@ -42,9 +42,9 @@ const SilderBarAdmin = () => {
   const [isShowManageProduct, setIsShowManageProduct] = useState(false);
   const { BiSolidDownArrow, BiSolidRightArrow } = icons;
   return (
-    <div className="w-full h-full shadow-2xl bg-white">
+    <div className="w-full h-full shadow-2xl bg-colorCyanDark text-white">
       <div>
-        <span className="font-bold text-[28px] text-colorCyan flex justify-center pt-[16px]">
+        <span className="font-bold uppercase text-[25px] text-colorCyan flex justify-center pt-[16px]">
           Mạnh Tuấn Shop
         </span>
       </div>
@@ -75,22 +75,22 @@ const SilderBarAdmin = () => {
                     </span>
                     <div>
                       {isShowManageProduct ? (
-                        <BiSolidDownArrow></BiSolidDownArrow>
+                        <BiSolidDownArrow color="black"></BiSolidDownArrow>
                       ) : (
-                        <BiSolidRightArrow></BiSolidRightArrow>
+                        <BiSolidRightArrow color="black"></BiSolidRightArrow>
                       )}
                     </div>
                   </div>
                   {!!isShowManageProduct && (
-                    <div className="absolute inset-0 mt-12 ">
+                    <div className="absolute inset-0 mt-12">
                       {el.submenu.map((item) => {
                         return (
                           <NavLink
                             to={item.path}
                             key={Math.random()}
-                            className="w-[100%] pl-[16px] cursor-pointer h-[30px] flex items-center"
+                            className="w-[100%] pl-[16px] bg-gray-400 mb-2 hover:bg-opacity-80 cursor-pointer h-[30px] flex items-center"
                           >
-                            <span className="text-black">{item.text}</span>
+                            <span className="text-white">{item.text}</span>
                           </NavLink>
                         );
                       })}

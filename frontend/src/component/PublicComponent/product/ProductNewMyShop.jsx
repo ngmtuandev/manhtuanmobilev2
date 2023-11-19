@@ -3,10 +3,11 @@ import getApiProduct from "../../../api/getApiProduct";
 import TitleTop from "../header/TitleTop";
 import ProductCard from "./ProductCard";
 import Paginations from "../pagination/Paginations";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const ProductNewMyShop = () => {
   const [products, setProduct] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [pageCurrent, setPageCurrent] = useState(1);
   const [dataProductInPage, setDataProductInPage] = useState([]);
   const getProducts = async () => {
@@ -17,13 +18,12 @@ const ProductNewMyShop = () => {
       setDataProductInPage(dataPrdInPage);
       console.log(dataProductInPage);
       setProduct(rs?.data);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    setLoading(true);
     getProducts();
-    setLoading(false);
   }, [pageCurrent]);
   console.log("products >>>>", products);
 
@@ -38,10 +38,9 @@ const ProductNewMyShop = () => {
       <div>
         <TitleTop text={"Sản phẩm mới"}></TitleTop>
       </div>
+
       {loading ? (
-        <div>
-          <span>loading....</span>
-        </div>
+        <Skeleton count={7} height={30} />
       ) : (
         <div className="grid-cols-5 grid gap-4 mt-4">
           {dataProductInPage?.map((el) => {

@@ -17,6 +17,8 @@ import apiAddCart from "../../api/apicart/apiAddCart";
 import withHocBase from "../../hocs/withHocBase";
 import swal from "sweetalert";
 import actionTypeAsyncLogin from "../../store/actionTypeAsyncLogin";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const useApiCounter = create((set) => ({
   apiCallCount: 0,
   incrementApiCallCount: () =>
@@ -34,6 +36,7 @@ const DetailProduct = ({ dispatch }) => {
   const [quality, setQuality] = useState(1);
   const [productCategory, setProductCategory] = useState([]);
   const [submitReiew, setSubmitReview] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { isShowModel } = useSelector((state) => state.model);
   const { id, name, category } = useParams();
   const { apiCallCount, incrementApiCallCount } = useApiCounter();
@@ -45,6 +48,7 @@ const DetailProduct = ({ dispatch }) => {
       const dataProduct = await getApiDetailProduct(id);
       incrementApiCallCount();
       setProduct(dataProduct?.data);
+      setLoading(false);
       setTimeout(() => {
         setImgCurrent(product?.thumb);
         setListImgs(product?.img);
@@ -130,24 +134,28 @@ const DetailProduct = ({ dispatch }) => {
         {product?.title}
         <BreadCumbs title={name} category={category}></BreadCumbs>
       </div>
-
+      {/* {loading && <Skeleton />} */}
       <div className="flex mt-5 justify-center text-gray-900 font-serif gap-14">
         <div className="w-[35%] h-screen">
           <div className="w-[100%] border-[3px] p-[8px] rounded-md border-colorCyanLV6 h-[500px] z-50 flex justify-center items-center">
-            <ReactImageMagnify
-              {...{
-                smallImage: {
-                  alt: "product",
-                  isFluidWidth: true,
-                  src: imgCurrent || product?.thumb,
-                },
-                largeImage: {
-                  src: imgCurrent,
-                  width: 800,
-                  height: 800,
-                },
-              }}
-            />
+            {loading ? (
+              <Skeleton width={"400px"} height={"480px"} />
+            ) : (
+              <ReactImageMagnify
+                {...{
+                  smallImage: {
+                    alt: "product",
+                    isFluidWidth: true,
+                    src: imgCurrent || product?.thumb,
+                  },
+                  largeImage: {
+                    src: imgCurrent,
+                    width: 800,
+                    height: 800,
+                  },
+                }}
+              />
+            )}
           </div>
           <div className=" mt-4 ">
             <SliderSlick {...settings}>
@@ -159,7 +167,14 @@ const DetailProduct = ({ dispatch }) => {
                         className=" w-[150px] flex justify-center items-center 
                 h-[150px] overflow-hidden"
                       >
-                        <img className="object-cover mx-4" src={el}></img>
+                        {loading ? (
+                          <Skeleton />
+                        ) : (
+                          <img
+                            className="object-cover skeleton mx-4"
+                            src={el}
+                          ></img>
+                        )}
                       </div>
                     );
                   })
@@ -179,26 +194,30 @@ const DetailProduct = ({ dispatch }) => {
         </div>
         <div className="w-[40%] -mt-2 h-screen ">
           <div>
-            <h3 className="font-semibold text-gray-600 text-[35px]">
-              {titleCurrent ? titleCurrent : product?.title}
+            <h3 className={`font-semibold text-gray-600 text-[35px]`}>
+              {loading ? <Skeleton /> : product?.title}
             </h3>
           </div>
           <div className="mb-2 flex justify-between text-gray-600">
-            <p>Lượt xem : {product?.see}</p>
+            <p>Lượt xem : {loading ? <Skeleton /> : product?.see}</p>
             <p className="mr-8">Đã bán : {product?.selled}</p>
           </div>
           <div>
-            <div className="flex w-[95%] px-[8px] bg-gray-100 bg-opacity-80 rounded-md items-center">
-              <span className="font-bold text-red-500 text-[32px]">
-                {priceCurrent
-                  ? formatMoney(priceCurrent)
-                  : formatMoney(product?.price)}{" "}
-                VNĐ
-              </span>
-              <span className="border-l-[1px] border-gray-600 ml-3 pl-[10px]">
-                Giá đã bao gồm VAT
-              </span>
-            </div>
+            {loading ? (
+              <Skeleton />
+            ) : (
+              <div className="flex w-[95%] px-[8px] bg-gray-100 bg-opacity-80 rounded-md items-center">
+                <span className="font-bold text-red-500 text-[32px]">
+                  {priceCurrent
+                    ? formatMoney(priceCurrent)
+                    : formatMoney(product?.price)}{" "}
+                  VNĐ
+                </span>
+                <span className="border-l-[1px] border-gray-600 ml-3 pl-[10px]">
+                  Giá đã bao gồm VAT
+                </span>
+              </div>
+            )}
             <div className="mt-2">
               {product?.discount > 0 ? (
                 <div className="flex items-center">
@@ -227,34 +246,38 @@ const DetailProduct = ({ dispatch }) => {
           <div className="flex mt-2 gap-2">
             {renderStarProduct(product?.ratings?.length || 3)}
           </div>
-          <div className="mt-2">
-            {product?.introProducts && (
-              <div>
-                {product?.introProducts?.length > 200 ? (
-                  <div>
-                    {showMore ? (
-                      <span className="text-[15px] text-gray-700">
-                        {product?.introProducts}
-                      </span>
-                    ) : (
-                      <span className="text-[15px] text-gray-700">
-                        {product?.introProducts.slice(0, 200)}...
-                      </span>
-                    )}
-                    <div
-                      onClick={() => setShowMore(!showMore)}
-                      className="w-[80px] h-[30px] cursor-pointer hover:bg-opacity-75 flex justify-center items-center bg-colorCyanMain
+          {loading ? (
+            <Skeleton height={"100px"} />
+          ) : (
+            <div className="mt-2">
+              {product?.introProducts && (
+                <div>
+                  {product?.introProducts?.length > 200 ? (
+                    <div>
+                      {showMore ? (
+                        <span className="text-[15px] text-gray-700">
+                          {product?.introProducts}
+                        </span>
+                      ) : (
+                        <span className="text-[15px] text-gray-700">
+                          {product?.introProducts.slice(0, 200)}...
+                        </span>
+                      )}
+                      <div
+                        onClick={() => setShowMore(!showMore)}
+                        className="w-[80px] h-[30px] cursor-pointer hover:bg-opacity-75 flex justify-center items-center bg-colorCyanMain
                     my-2 text-gray-100 rounded-sm"
-                    >
-                      {showMore ? "Ẩn bớt" : "Xem thêm"}
+                      >
+                        {showMore ? "Ẩn bớt" : "Xem thêm"}
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  product?.introProducts
-                )}
-              </div>
-            )}
-          </div>
+                  ) : (
+                    product?.introProducts
+                  )}
+                </div>
+              )}
+            </div>
+          )}
           {/* <div className="mt-2">
             {product?.desc && (
               <div dangerouslySetInnerHTML={{ __html: product?.desc[0] }} />

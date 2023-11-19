@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const LayoutAdmin = () => {
   return (
-    <div className="w-screen h-screen flex bg-gray-100">
+    <div className="w-screen h-[1000px] font-serif flex bg-gray-100">
       <div className="w-[20%] ">
         <SilderBarAdmin></SilderBarAdmin>
       </div>

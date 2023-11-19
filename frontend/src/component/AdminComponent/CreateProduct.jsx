@@ -113,8 +113,10 @@ const CreateProduct = () => {
   }, [watch("img")]);
 
   return (
-    <div className="px-main h-full">
-      <div>Create Product</div>
+    <div className="px-main h-full font-serif">
+      <div className="text-[24px] text-colorCyanMain text-center my-2 font-semibold uppercase ">
+        Create Product
+      </div>
 
       <form onSubmit={handleSubmit(handleCreateProduct)}>
         <div className="flex gap-4">
@@ -202,7 +204,22 @@ const CreateProduct = () => {
               required: "Trường này không được bỏ trống",
             }}
           ></InputForm>
-          <div className="w-52 relative">
+          <div className="">
+            <InputForm
+              register={register}
+              errors={errors}
+              // defaultValue={editUser?.email}
+              id={"introProducts"}
+              placeholder={"Giới thiệu sản phẩm"}
+              style={"w-[550px] h-[30px]"}
+              validate={{
+                required: "Trường này không được bỏ trống",
+              }}
+            ></InputForm>
+          </div>
+        </div>
+        <div>
+          <div className="w-52 relative mb-2">
             <select
               value={selectedValue}
               onChange={handleSelectChange}
@@ -231,27 +248,15 @@ const CreateProduct = () => {
             </select>
           </div>
         </div>
-        <div className="mt-5">
-          <InputForm
-            register={register}
-            errors={errors}
-            // defaultValue={editUser?.email}
-            id={"introProducts"}
-            placeholder={"Giới thiệu sản phẩm"}
-            style={"w-[600px] h-[80px]"}
-            validate={{
-              required: "Trường này không được bỏ trống",
-            }}
-          ></InputForm>
-        </div>
+
         <div className="mt-4">
           <MceTinyText
             // onCreateProduct={handleCreateProduct}
             setDesc={setDesc}
           ></MceTinyText>
         </div>
-        <div className="flex mt-4 gap-4">
-          <div>
+        <div className="flex justify-between mt-4 gap-4">
+          <div className="flex-col justify-center items-center">
             <label htmlFor="thumb">Ảnh thumb</label>
             <input
               {...register("thumb", {
@@ -262,10 +267,13 @@ const CreateProduct = () => {
             />
             {errors["thumb"] && <small>{errors["thumb"]?.message}</small>}
             {imgPreView.thumb && (
-              <img className="w-[100px] h-[100px]" src={imgPreView.thumb}></img>
+              <img
+                className="w-[100px] mt-3 h-[100px]"
+                src={imgPreView.thumb}
+              ></img>
             )}
           </div>
-          <div>
+          <div className="flex-col justify-center items-center">
             <label htmlFor="img">Ảnh sản phẩm</label>
             <input
               {...register("img", {
@@ -276,17 +284,27 @@ const CreateProduct = () => {
               id="img"
             />
             {errors["img"] && <small>{errors["img"]?.message}</small>}
-            {imgPreView?.img &&
-              imgPreView?.img?.map((el) => {
-                return <img className="w-[100px] h-[100px]" src={el}></img>;
-              })}
+            <div className="grid-cols-4 gap-3 grid mt-3">
+              {imgPreView?.img &&
+                imgPreView?.img?.map((el) => {
+                  return (
+                    <img
+                      className="w-[100px] shadow-lg h-[100px]"
+                      src={el}
+                    ></img>
+                  );
+                })}
+            </div>
+            <div
+              className="w-[350px] text-gray-50 font-bold rounded-lg h-[50px] mt-20 hover:opacity-75
+       bg-colorCyanDark justify-center items-center flex"
+            >
+              <button onClick={handleCreateProduct}>Tạo sản phẩm</button>
+              {isLoading ? <span>...</span> : ""}
+            </div>
           </div>
         </div>
       </form>
-      <div className="w-[150px] text-gray-50 font-bold rounded-lg mt-4 h-[30px] bg-red-500 flex">
-        <button onClick={handleCreateProduct}>Tạo sản phẩm</button>
-        {isLoading ? <span>....</span> : ""}
-      </div>
     </div>
   );
 };

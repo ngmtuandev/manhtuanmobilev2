@@ -3,11 +3,13 @@ import getApiProduct from "../../api/getApiProduct";
 import Slider from "react-slick";
 import "../../component/styleCss/customSlick.css";
 import ProductCardTab from "./ProductCardTab";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const TabProduct = () => {
   const [tabCurr, setTabCurr] = useState(1);
   const [productNew, setProductNew] = useState([]);
   const [productBestSelled, setProductBestSelled] = useState([]);
+  const [loading, setLoading] = useState(true);
   const listTabProduct = [
     {
       id: 1,
@@ -25,6 +27,7 @@ const TabProduct = () => {
     ]);
     setProductNew(dataProduct[0]?.data);
     setProductBestSelled(dataProduct[1]?.data);
+    setLoading(false);
   };
   useEffect(() => {
     fetchProduct();
