@@ -1,17 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchProducts } from "../../services/products/fetchProducts";
+import { fetchProducts } from "../../api/fetchAllProducts";
 import fetchDeleteProduct from "../../api/fetchApiAdmin/deleteProduct";
 import fetchUpdateProduct from "../../api/fetchApiAdmin/updatedProduct";
 import { acionShowModel } from "../../store/modelSlice";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 
-const useProduct = () => {
+const useProduct = ({ page, limit }) => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
-    queryKey: ["Products"],
-    queryFn: () => fetchProducts(),
+    queryKey: ["Products", { page, limit }],
+    queryFn: () => fetchProducts({ page, limit }),
   });
 
   const deleteProduct = useMutation({

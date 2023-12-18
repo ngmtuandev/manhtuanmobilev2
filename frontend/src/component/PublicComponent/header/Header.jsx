@@ -21,10 +21,6 @@ const Header = () => {
     CiShoppingCart,
     CiSettings,
   } = icons;
-  const handleLogout = () => {
-    dispatch(logout());
-    window.location.reload();
-  };
 
   return (
     <div className="flex mt-9 bg-colorCyanMain justify-between items-center">

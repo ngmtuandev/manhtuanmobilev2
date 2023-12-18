@@ -16,10 +16,10 @@ const {
 } = icons;
 
 const iconsCategory = [
-  <MdOutlineHeadphones size={20}></MdOutlineHeadphones>,
   <FiWatch size={20}></FiWatch>,
-  <FaComputer size={20}></FaComputer>,
   <IoPhonePortraitOutline size={20}></IoPhonePortraitOutline>,
+  <FaComputer size={20}></FaComputer>,
+  <MdOutlineHeadphones size={20}></MdOutlineHeadphones>,
   <RiComputerLine size={20}></RiComputerLine>,
   <MdComputer size={20}></MdComputer>,
   <LuMonitorSmartphone size={20}></LuMonitorSmartphone>,

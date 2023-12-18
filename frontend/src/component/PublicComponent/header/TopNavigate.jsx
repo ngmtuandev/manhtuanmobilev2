@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import dataTopHeader from "../../../untils/dataTopHeader";
 import { useSelector } from "react-redux";
 const TopNavigate = () => {
-  const [info, setInfo] = useState("");
   const { dataUser, isLoading, isLogin } = useSelector((state) => state.user);
-  setTimeout(() => {
-    setInfo(dataUser);
-  }, 2000);
   return (
     <div className="flex flex-row bg-colorCyanMain items-center justify-end gap-10 py-[10px] max-h-full">
       {dataTopHeader.map((item) => {
@@ -23,13 +19,13 @@ const TopNavigate = () => {
                 onClick={(e) => e.stopPropagation()}
                 className="flex items-center"
               >
-                {info?.avatar && (
+                {dataUser?.avatar && (
                   <img
                     className="w-8 h-8 rounded-full border-white border-[1px] mr-2"
-                    src={info?.avatar}
+                    src={dataUser?.avatar}
                   ></img>
                 )}
-                <span>{`Xin chào, ${info?.firstName} ${info?.lastName}`}</span>
+                <span>{`Xin chào, ${dataUser?.firstName} ${dataUser?.lastName}`}</span>
               </div>
             ) : (
               item.value

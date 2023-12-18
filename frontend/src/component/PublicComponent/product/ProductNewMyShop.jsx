@@ -1,45 +1,25 @@
-import React, { useEffect, useState } from "react";
-import getApiProduct from "../../../api/getApiProduct";
+import React, { useState, useCallback } from "react";
 import TitleTop from "../header/TitleTop";
 import ProductCard from "./ProductCard";
-import Paginations from "../pagination/Paginations";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import useProduct from "../../../hook/hook-product/useProduct";
+import PaginationNewVersion from "../pagination/PaginationNewVersion";
 const ProductNewMyShop = () => {
-  const [products, setProduct] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [pageCurrent, setPageCurrent] = useState(1);
-  const [dataProductInPage, setDataProductInPage] = useState([]);
-  const { products: prd } = useProduct();
-  console.log("prd >>>>>>>>>>>>", prd);
-  // const getProducts = async () => {
-  //   const rs = await getApiProduct({ limit: 55 });
-  //   if (rs?.data.length > 0) {
-  //     let startPage = (pageCurrent - 1) * 10 + 1;
-  //     const dataPrdInPage = rs?.data?.slice(startPage, startPage + 10);
-  //     setDataProductInPage(dataPrdInPage);
-  //     console.log(dataProductInPage);
-  //     setProduct(rs?.data);
-  //     setLoading(false);
-  //   }
-  // };
-
-  const paginate = (pageNumberChoose) => {
-    setPageCurrent(pageNumberChoose);
-  };
-
+  const [page, setPage] = useState(1);
+  const { products: prd } = useProduct({ page, limit: 3 });
+  const handlePage = useCallback(
+    (cur) => {
+      setPage(cur);
+    },
+    [page]
+  );
   return (
     <div className="px-main">
       <div>
         <TitleTop text={"Sản phẩm mới"}></TitleTop>
       </div>
-
-      {/* {loading ? (
-        <Skeleton count={7} height={30} />
-      ) : ( */}
       <div className="grid-cols-5 grid gap-4 mt-4">
-        {prd?.map((el) => {
+        {prd?.data?.map((el) => {
           return (
             <div key={el?._id} className="w-[100%] h-[100%]">
               <ProductCard product={el}></ProductCard>
@@ -47,14 +27,12 @@ const ProductNewMyShop = () => {
           );
         })}
       </div>
-      {/* )} */}
       <div>
-        <Paginations
-          pageCurrent={pageCurrent}
-          onChangePage={paginate}
-          totalPrds={products?.length}
-          prdsPerPage={10}
-        ></Paginations>
+        <PaginationNewVersion
+          page={page}
+          onPage={handlePage}
+          total={Math.ceil(prd?.count / 3)}
+        ></PaginationNewVersion>
       </div>
     </div>
   );
