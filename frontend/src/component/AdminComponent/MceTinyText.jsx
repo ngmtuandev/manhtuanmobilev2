@@ -3,11 +3,7 @@ import { Editor } from "@tinymce/tinymce-react";
 
 const MceTinyText = ({ setDesc, hight }) => {
   const editorRef = useRef(null);
-  //   const log = () => {
-  //     if (editorRef.current) {
-  //       console.log(editorRef.current.getContent());
-  //     }
-  //   };
+
   return (
     <>
       <Editor

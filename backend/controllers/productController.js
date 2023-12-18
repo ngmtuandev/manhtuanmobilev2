@@ -39,11 +39,16 @@ const productController = {
         path: "voteBy",
       },
     });
-    if (findProductCurrent) {
+    console.log("find prd >>>>>", findProductCurrent.see + 1);
+    findProductCurrent.see += 1;
+
+    // Save the updated product
+    const product = await findProductCurrent.save();
+    if (product) {
       res.status(200).json({
         status: 0,
         mess: "Lấy sản phẩm thành công",
-        data: findProductCurrent,
+        data: product,
       });
     } else {
       res.status(401).json({

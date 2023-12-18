@@ -26,19 +26,26 @@ const ProductsCategory = () => {
   const { CiFilter } = icons;
 
   useEffect(() => {
+    // Params want filter
     let params = [];
     for (let i of colors.entries()) {
+      // entries => ['key', 'value']
+      console.log(i);
       params.push(i);
     }
-    console.log(params);
+    console.log(params); // [[param, value], [param, value], ['color', 'đỏ']]
+
+    // chuyển từng phẩn tử params về dạng object : {key: value}
     const queries = {};
     for (let i of params) {
       queries[i[0]] = i[1];
     }
+
     (async () => {
       console.log(params);
       console.log(queries);
       setIsLoading(true);
+      // truyền param cho api dạng : {params : value}
       const dataRs = await getApiProduct({
         category: category,
         limit: 30,
@@ -62,13 +69,6 @@ const ProductsCategory = () => {
   );
   return (
     <Fragment>
-      {/* {isLoading ? (
-        <div className="w-full h-full flex justify-center items-center">
-          <div className="mt-36">
-            <Spinner color="blue" className="h-12 w-12" />
-          </div>
-        </div>
-      ) : ( */}
       <div className="px-main mt-5">
         <div>
           <div>

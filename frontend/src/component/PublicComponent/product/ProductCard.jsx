@@ -6,7 +6,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const ProductCard = ({ product, style }) => {
   const [showSelect, setShowSelect] = useState(true);
-  console.log("product >>>>>", product);
   return (
     <Link
       to={`/${product?.category.toLowerCase()}/${product?._id}/${

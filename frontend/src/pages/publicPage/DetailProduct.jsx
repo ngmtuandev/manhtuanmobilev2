@@ -65,7 +65,6 @@ const DetailProduct = ({ dispatch }) => {
     speed: 500,
     slidesToScroll: 1,
   };
-
   const handleQuality = useCallback(
     (isHandle) => {
       if (isHandle.toString() === "up") {
@@ -278,22 +277,13 @@ const DetailProduct = ({ dispatch }) => {
               )}
             </div>
           )}
-          {/* <div className="mt-2">
-            {product?.desc && (
-              <div dangerouslySetInnerHTML={{ __html: product?.desc[0] }} />
-            )}
-          </div> */}
+
           <div>
             <span className="font-bold text-gray-700">
               Màu : {colorCurrent ? colorCurrent : product?.color}
             </span>
           </div>
-          {/* <div>
-            <QualityProduct
-              quality={quality}
-              handleQuality={handleQuality}
-            ></QualityProduct>
-          </div> */}
+
           <div>
             {product?.variants?.length > 0 && (
               <div className="flex mt-2 flex-wrap items-center gap-4">
@@ -378,22 +368,7 @@ const DetailProduct = ({ dispatch }) => {
           product={product}
         ></TabDetailProduct>
       </div>
-      {/* <div className="mt-10 h-[500px]">
-        <SliderSlick {...settings}>
-          {productCategory?.map((el) => {
-            return (
-              <div
-                key={el?._id}
-                className="cursor-pointer w-[100px] flex justify-center items-center 
-                h-[350px] overflow-hidden"
-              >
-                <img className="w-[80%]" src={el?.img[0]}></img>
-                <p>{el?.title}</p>
-              </div>
-            );
-          })}
-        </SliderSlick>
-      </div> */}
+
       {isShowModel && (
         <div
           onClick={handleCloseModel}

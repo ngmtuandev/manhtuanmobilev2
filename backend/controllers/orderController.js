@@ -5,47 +5,12 @@ const Coupon = require("../model/coupon");
 const categoryController = {
   createOrder: asyncHandler(async (req, res) => {
     const { id } = req.auth;
-    const { coupon } = req.body;
-    const cartUserCurr = await User.findById(id)
-      .select("cart")
-      .populate("cart.product", "title price");
-    // console.log("cart user current >>>>>", cartUserCurr);
-    const products = cartUserCurr?.cart?.map((item) => ({
-      product: item?.product,
-      total: item?.quanlity,
-      color: item?.color,
-    }));
-    console.log("products >>>>>", products);
-    let totalCart = products?.reduce(
-      (sum, item) => sum + item?.product?.price * item?.total,
-      0
-    );
-    console.log("total cart not coupon >>>>>>", totalCart);
-    if (coupon) {
-      const findCoupon = await Coupon.findById(coupon).select("discout");
-      console.log("data find coupon >>>>>", findCoupon);
-      if (findCoupon) {
-        totalCart =
-          Math.round((totalCart * (1 - +findCoupon?.discout / 100)) / 1000) *
-          1000;
-      }
-      console.log("cart total coupon >>>>>>>", totalCart);
-    }
-    const rs = await Order.create({
-      products,
-      total: totalCart,
-      orderBy: id,
-    });
+    const { products, total } = req.body;
+    const rs = await Order.create({ products, total, orderBy: id });
     if (rs) {
       return res.status(201).json({
-        status: 0,
-        mess: "Đơn hàng tạo thành công",
+        mess: "Tạo đơn hàng thành công",
         data: rs,
-      });
-    } else {
-      return res.status(400).json({
-        status: 1,
-        mess: "Đơn hàng tạo thất bại",
       });
     }
   }),

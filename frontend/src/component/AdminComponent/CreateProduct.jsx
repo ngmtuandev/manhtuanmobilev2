@@ -250,10 +250,7 @@ const CreateProduct = () => {
         </div>
 
         <div className="mt-4">
-          <MceTinyText
-            // onCreateProduct={handleCreateProduct}
-            setDesc={setDesc}
-          ></MceTinyText>
+          <MceTinyText setDesc={setDesc}></MceTinyText>
         </div>
         <div className="flex justify-between mt-4 gap-4">
           <div className="flex-col justify-center items-center">

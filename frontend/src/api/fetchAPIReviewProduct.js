@@ -8,6 +8,7 @@ const fetchApiRatingProduct = (data, token) =>
     headers: {
       author: `Bearer ${token}`,
     },
+    
   });
 
 export default fetchApiRatingProduct;

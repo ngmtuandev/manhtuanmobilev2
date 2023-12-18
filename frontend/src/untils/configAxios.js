@@ -1,6 +1,6 @@
 import axios from "axios";
 const instance = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://manhtuanmobile-api.onrender.com/api",
 });
 
 // Add a request interceptor
@@ -15,23 +15,19 @@ instance.interceptors.request.use(
   }
 );
 
-
 // CONFIG TRƯỚC KHI GỬI API --> thêm bearer token nếu đã đăng nhập trước khi gửi api
-instance.interceptors.request.use(function(config) {
+instance.interceptors.request.use(function (config) {
   // config : set lại dữ liệu data truyền lên backend --> thêm bearer token lên data api để truyền lên
-  let localStorageData = window.localStorage.getItem('persist:USER_LOGIN') // có => đã đăng nhập => thực hiện tiếp theo
-  if (localStorageData && typeof localStorageData === 'string') {
-    localStorageData = JSON.parse(localStorageData)
-    const accessTokenLogin = JSON.parse(localStorageData?.token)
+  let localStorageData = window.localStorage.getItem("persist:USER_LOGIN"); // có => đã đăng nhập => thực hiện tiếp theo
+  if (localStorageData && typeof localStorageData === "string") {
+    localStorageData = JSON.parse(localStorageData);
+    const accessTokenLogin = JSON.parse(localStorageData?.token);
     // console.log('accessTokenLogin >>>>>', accessTokenLogin)
-    config.headers = {author : `Bearer ${accessTokenLogin}`}
+    config.headers = { author: `Bearer ${accessTokenLogin}` };
     // console.log('check config in axios >>>>>', config)
-    return config // trả về data mới để gửi lên backend
-  } else return config
-})
-
-
-
+    return config; // trả về data mới để gửi lên backend
+  } else return config;
+});
 
 // DỮ LIỆU TRẢ VỀ
 // Add a response interceptor

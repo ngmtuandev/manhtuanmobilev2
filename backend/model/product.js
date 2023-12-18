@@ -12,6 +12,13 @@ const productSchema = new mongoose.Schema(
       require: true,
       lowercase: true,
     },
+    introProducts: {
+      type: String,
+    },
+    see: {
+      type: Number,
+      default: 1,
+    },
     desc: {
       type: Array,
       require: true,
